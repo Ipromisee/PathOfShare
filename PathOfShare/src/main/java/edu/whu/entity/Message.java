@@ -72,4 +72,23 @@ public abstract class Message {
     public void setFromWho(String fromWho) {
         this.fromWho = fromWho;
     }
+
+
+    //抽象方法
+    /**
+     * system.out.println内容+特殊标识
+     */
+    public abstract void show();
+
+    /**
+     * 获得实际输出内容
+     * @return 内容+特殊标识
+     */
+    public abstract String displayContent();
+
+    /**
+     * 获得用户类型
+     * @return visitor/manager/user
+     */
+    public abstract String fromWho();
 }

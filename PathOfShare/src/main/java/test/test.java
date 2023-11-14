@@ -1,5 +1,6 @@
 import java.sql.*;
 //import edu.whu.*;
+import edu.whu.entity.Blog;
 import edu.whu.entity.User;
 import edu.whu.entity.users.CommenUser;
 import edu.whu.service.MySQL.MySqlHelper;
@@ -26,7 +27,7 @@ public class test {
                 System.out.print("\n");
             }
             instance.closeResultSet();
-            System.out.println("测试查询功能getResultSet和closeResultSet两个函数，成功");
+            System.out.println("测试查询功能getResultSet和closeResultSet两个函数，成功\n\n");
         }catch (SQLException se){
             se.printStackTrace();
         }
@@ -43,7 +44,7 @@ public class test {
             instance.sqlCMD("INSERT INTO users(userName,passWord,type) VALUES(?,?,?)",name,passWord,"user");
             //不需要close函数，资源在sqlCMD命令中自动释放
             //以上两种方法都是可以的
-            System.out.println("测试数据更新功能,sqlCMD，成功");
+            System.out.println("测试数据更新功能,sqlCMD，成功\n\n");
         }catch (Exception exception){
             exception.printStackTrace();
         }
@@ -52,7 +53,7 @@ public class test {
         try{
             System.out.println("测试获得单例的功能,getInstance");
             MySqlHelper instance = MySqlHelper.getInstance();
-            User aUser = instance.getInstance(User.class,"SELECT * FROM users WHERE userId = ?",1);
+            User aUser = instance.getInstance(User.class,"SELECT * FROM users WHERE userId = ?",48);
             if(aUser!=null){
                 System.out.println("userId："+aUser.getId());
                 System.out.println("userName："+aUser.getUserName());
@@ -61,7 +62,7 @@ public class test {
                 System.out.println("userGender："+aUser.getGender());
             }
             //该命令资源也已经释放，不需要close函数
-            System.out.println("测试获得单例的功能,getInstance，成功");
+            System.out.println("测试获得单例的功能,getInstance，成功\n\n");
         }catch (Exception exception){
             exception.printStackTrace();
         }
@@ -73,20 +74,44 @@ public class test {
             String name="insert",passWord="insert";
             int id = instance.insertAndId("INSERT INTO users(userName,passWord,type) VALUES(?,?,?)",name,passWord,"user");
             System.out.println("the Id of insert："+id);
-            System.out.println("测试插入并获取ID,insertAndId，成功");
+            System.out.println("测试插入并获取ID,insertAndId，成功\n\n");
         }catch (Exception ex){
             ex.printStackTrace();
         }
 
         //测试抽象工厂方法
+        System.out.println("测试抽象工厂方法");
         User aUser ;
         MySqlHelper sqlHelper = MySqlHelper.getInstance();
-        aUser = sqlHelper.getInstance(User.class,"SELECT * FROM users WHERE userId = ?",1);
-        if(aUser.getType()=="user"){
-            aUser = (CommenUser)aUser;
-            System.out.println("this is a common user");
-            //((CommenUser) aUser).postAndGetBlog()
+        aUser = sqlHelper.getInstance(User.class,"SELECT * FROM users WHERE userId = ?",48);
+        if(aUser!=null){
+            if(aUser.getType().equals("user")){
+                System.out.println("this is a common user");
+            }
+            Blog blog = aUser.postAndGetBlog("111");
+            System.out.println("The info of Blog from userA:");
+            System.out.println("ID:"+blog.getBlogId());
+            System.out.println("Content:"+blog.getContent());
+            System.out.println("time:"+blog.getTime());
+            System.out.println("userID:"+blog.getUserId());
+            System.out.println("fromWHo:"+blog.fromWho());
+            System.out.println("displayContent:"+blog.displayContent()+"\n");
         }
 
+        User bUser = sqlHelper.getInstance(User.class,"SELECT * FROM users WHERE userId = ?",49);
+        if(bUser!=null){
+            if(bUser.getType().equals("manager")){
+                System.out.println("this is a manager");
+            }
+            Blog blog = bUser.postAndGetBlog("222");
+            System.out.println("The info of Blog from userB:");
+            System.out.println("ID:"+blog.getBlogId());
+            System.out.println("Content:"+blog.getContent());
+            System.out.println("time:"+blog.getTime());
+            System.out.println("userID:"+blog.getUserId());
+            System.out.println("fromWHo:"+blog.fromWho());
+            System.out.println("displayContent:"+blog.displayContent());
+        }
+        System.out.println("测试抽象工厂方法，结束\n\n");
     }
 }

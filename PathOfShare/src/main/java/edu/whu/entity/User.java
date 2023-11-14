@@ -11,8 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @TableName(value = "users")
-public class User {
-    private static User instance = new User();
+public abstract class User {
+    //private static User instance = new User();
     @TableId(type = IdType.AUTO)
     private long userId;
     private String userName;
@@ -28,9 +28,9 @@ public class User {
     public User() {
     }
 
-    public static User getInstance() {
+    /*public static User getInstance() {
         return instance;
-    }
+    }*/
 
     public long getId() {
         return userId;
@@ -128,7 +128,7 @@ public class User {
      */
     public void postBlog(Blog blog){
         MySqlHelper sql = MySqlHelper.getInstance();
-        int blogId = sql.insertAndId("INSERT INTO blogs(userId,content,fromWho) VALUES(?,?,?)",userId,blog.getContent(),blog.getFromWho());
+        int blogId = sql.insertAndId("INSERT INTO blogs(userId,content,time,fromWho) VALUES(?,?,?,?)",userId,blog.getContent(),new Date(),blog.getFromWho());
         blog.setBlogId(blogId);
     }
     /**
@@ -264,4 +264,25 @@ public class User {
         int messageId = instance.insertAndId("INSERT INTO messages(senderId,receiverId,time,content,fromWho) VALUES(?,?,?,?,?)",userId,message.getReceiverId(),message.getTime(),message.getContent(),message.getFromWho());
         message.setMessageId(messageId);
     }
+
+
+    //抽象方法
+    /**
+     * 根据content发布blog，同时返回Blog
+     * @param content 内容字符串
+     * @return 设置好fromWho和id的blog
+     */
+    public abstract Blog postAndGetBlog(String content);
+    /**
+     * 根据content发布comment，同时返回Comment
+     * @param content 内容字符串
+     * @return 设置好fromWho和id的comment
+     */
+    public abstract Comment postAndGetComment(String content,long blogId);
+    /**
+     * 根据content发送message，同时返回Message
+     * @param content 内容字符串
+     * @return 设置好fromWho和id的Message
+     */
+    public abstract Message sendAndGetMessage(String content,long receiverId);
 }

@@ -1,9 +1,8 @@
 package edu.whu.entity.messages;
 
 import edu.whu.entity.Message;
-import edu.whu.entity.interfaces.messageInterface;
 
-public class userMessage extends Message implements messageInterface {
+public class userMessage extends Message {
     public userMessage(long senderId, long receiverId, String content){
         super(senderId, receiverId, content);
         setFromWho("user");

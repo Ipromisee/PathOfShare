@@ -1,5 +1,22 @@
 package edu.whu.service.MySQL;
 
+import edu.whu.entity.Blog;
+import edu.whu.entity.Comment;
+import edu.whu.entity.Message;
+import edu.whu.entity.User;
+import edu.whu.entity.blogs.managerBlog;
+import edu.whu.entity.blogs.userBlog;
+import edu.whu.entity.blogs.visitorBlog;
+import edu.whu.entity.comments.managerComment;
+import edu.whu.entity.comments.userComment;
+import edu.whu.entity.comments.visitorComment;
+import edu.whu.entity.messages.managerMessage;
+import edu.whu.entity.messages.userMessage;
+import edu.whu.entity.messages.visitorMessage;
+import edu.whu.entity.users.CommenUser;
+import edu.whu.entity.users.ManagerUser;
+import edu.whu.entity.users.VisitorUser;
+
 import java.lang.reflect.Field;
 import java.sql.*;
 
@@ -169,10 +186,11 @@ public class MySqlHelper {
     }*/
 
     /**
-     *通过查询语句，返回一个对应类的实例，失败返回null
+     *通过查询语句，返回一个抽象类的实例；自动判断属于哪个子类，并返回该子类；空白字段不赋值，所以会有null属性；失败返回null
      *如：String sql = "SELECT user,password FROM user_table WHERE user = ? and password = ?";
      * User returnUser = getInstance(User.class,sql,user,password);
-     * @param clazz
+     * 如果该user的type就是user，则对象是CommonUser
+     * @param clazz 抽象类
      * @param sql sql查询语句，填充数值用？表示，如"SELECT user,password FROM user_table WHERE user = ? and password = ?"
      * @param args ？填充对象，数量和问号数保持一致
      * @return 查询到的实例对象，失败返回null
@@ -190,22 +208,102 @@ public class MySqlHelper {
             ResultSetMetaData rsmd = resultSet.getMetaData();
             // 通过ResultSetMetaData获取结果集中的列数
             int columnCount = rsmd.getColumnCount();
-
+            Class sonClass = null;
             if (resultSet.next()) {
-                T t = clazz.newInstance();
+                if(clazz.equals(User.class)){
+                    for (int i = 0; i < columnCount; i++) {
+                        if(rsmd.getColumnLabel(i + 1).equals("type")){
+                            Object columValue = resultSet.getObject(i + 1);
+                            switch ((String)columValue ){
+                                case "user":
+                                    sonClass = CommenUser.class;
+                                    break;
+                                case "visitor":
+                                    sonClass = VisitorUser.class;
+                                    break;
+                                case "manager":
+                                    sonClass = ManagerUser.class;
+                                    break;
+                                default:
+                                    throw new Exception("User类型判断错误");
+                            }
+                        }
+                    }
+                } else if (clazz.equals(Blog.class)) {
+                    for (int i = 0; i < columnCount; i++) {
+                        if(rsmd.getColumnLabel(i + 1).equals("fromWho")){
+                            Object columValue = resultSet.getObject(i + 1);
+                            switch ((String)columValue ){
+                                case "user":
+                                    sonClass = userBlog.class;
+                                    break;
+                                case "visitor":
+                                    sonClass = visitorBlog.class;
+                                    break;
+                                case "manager":
+                                    sonClass = managerBlog.class;
+                                    break;
+                                default:
+                                    throw new Exception("Blog类型判断错误");
+                            }
+                        }
+                    }
+                } else if (clazz.equals(Comment.class)) {
+                    for (int i = 0; i < columnCount; i++) {
+                        if(rsmd.getColumnLabel(i + 1).equals("fromWho")){
+                            Object columValue = resultSet.getObject(i + 1);
+                            switch ((String)columValue ){
+                                case "user":
+                                    sonClass = userComment.class;
+                                    break;
+                                case "visitor":
+                                    sonClass = visitorComment.class;
+                                    break;
+                                case "manager":
+                                    sonClass = managerComment.class;
+                                    break;
+                                default:
+                                    throw new Exception("Comment类型判断错误");
+                            }
+                        }
+                    }
+                } else if (clazz.equals(Message.class)) {
+                    for (int i = 0; i < columnCount; i++) {
+                        if (rsmd.getColumnLabel(i + 1).equals("fromWho")) {
+                            Object columValue = resultSet.getObject(i + 1);
+                            switch ((String) columValue) {
+                                case "user":
+                                    sonClass = userMessage.class;
+                                    break;
+                                case "visitor":
+                                    sonClass = visitorMessage.class;
+                                    break;
+                                case "manager":
+                                    sonClass = managerMessage.class;
+                                    break;
+                                default:
+                                    throw new Exception("Message类型判断错误");
+                            }
+                        }
+                    }
+                }
+                T t = (T) sonClass.newInstance();
                 // 处理结果集一行数据中的每一个列
                 for (int i = 0; i < columnCount; i++) {
                     // 获取列值
                     Object columValue = resultSet.getObject(i + 1);
+                    //如果非空则赋值
+                    if(columValue != null){
+                        // 获取列名
+                        // String columnName = rsmd.getColumnName(i + 1);
+                        String columnLabel = rsmd.getColumnLabel(i + 1);
 
-                    // 获取每个列的列名
-                    // String columnName = rsmd.getColumnName(i + 1);
-                    String columnLabel = rsmd.getColumnLabel(i + 1);
+                        // 给t对象指定的columnName属性，赋值为columValue：通过反射
+                        Field field = clazz.getDeclaredField(columnLabel);
+                        field.setAccessible(true);
+                        field.set(t, columValue);
+                    }
 
-                    // 给t对象指定的columnName属性，赋值为columValue：通过反射
-                    Field field = clazz.getDeclaredField(columnLabel);
-                    field.setAccessible(true);
-                    field.set(t, columValue);
                 }
                 resultSet.close();
                 preparedStatement.close();
@@ -224,5 +322,10 @@ public class MySqlHelper {
             }
         }
         return null;
+    }
+    private <T> void get(Class<T> clazz){
+        if(clazz.equals(User.class)){
+
+        }
     }
 }

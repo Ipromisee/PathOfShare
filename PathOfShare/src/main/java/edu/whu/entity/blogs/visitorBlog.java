@@ -1,9 +1,8 @@
 package edu.whu.entity.blogs;
 
 import edu.whu.entity.Blog;
-import edu.whu.entity.interfaces.blogInterface;
 
-public class visitorBlog extends Blog implements blogInterface {
+public class visitorBlog extends Blog {
     public visitorBlog(long userId, String content){
         super(userId,content);
         setFromWho("visitor");

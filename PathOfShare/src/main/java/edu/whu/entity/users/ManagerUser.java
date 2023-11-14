@@ -6,10 +6,9 @@ import edu.whu.entity.Message;
 import edu.whu.entity.User;
 import edu.whu.entity.blogs.managerBlog;
 import edu.whu.entity.comments.managerComment;
-import edu.whu.entity.interfaces.userInterface;
 import edu.whu.entity.messages.managerMessage;
 
-public class ManagerUser extends User implements userInterface {
+public class ManagerUser extends User {
     public ManagerUser(){
         super();
         setType("manager");

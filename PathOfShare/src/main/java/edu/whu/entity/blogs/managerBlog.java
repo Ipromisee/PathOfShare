@@ -1,9 +1,8 @@
 package edu.whu.entity.blogs;
 
 import edu.whu.entity.Blog;
-import edu.whu.entity.interfaces.blogInterface;
 
-public class managerBlog extends Blog implements blogInterface {
+public class managerBlog extends Blog {
     public managerBlog(long userId, String content){
         super(userId,content);
         setFromWho("manager");

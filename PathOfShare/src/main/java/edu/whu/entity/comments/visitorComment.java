@@ -1,9 +1,8 @@
 package edu.whu.entity.comments;
 
 import edu.whu.entity.Comment;
-import edu.whu.entity.interfaces.commentInterface;
 
-public class visitorComment extends Comment implements commentInterface {
+public class visitorComment extends Comment {
     public visitorComment(long posterId, long blogId, String content){
         super(posterId, blogId, content);
         setFromWho("visitor");

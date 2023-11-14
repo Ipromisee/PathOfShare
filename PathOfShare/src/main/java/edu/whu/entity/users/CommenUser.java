@@ -6,10 +6,9 @@ import edu.whu.entity.Message;
 import edu.whu.entity.User;
 import edu.whu.entity.blogs.userBlog;
 import edu.whu.entity.comments.userComment;
-import edu.whu.entity.interfaces.userInterface;
 import edu.whu.entity.messages.userMessage;
 
-public class CommenUser extends User implements userInterface {
+public class CommenUser extends User {
     public CommenUser(){
         super();
         setType("user");
