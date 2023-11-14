@@ -11,8 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @TableName(value = "users")
-public abstract class User {
-    //private static User instance = new User();
+public class User {
+    private static User instance = new User();
     @TableId(type = IdType.AUTO)
     private long userId;
     private String userName;
@@ -28,9 +28,9 @@ public abstract class User {
     public User() {
     }
 
-    /*public static User getInstance() {
+    public static User getInstance() {
         return instance;
-    }*/
+    }
 
     public long getId() {
         return userId;

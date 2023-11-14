@@ -11,17 +11,17 @@ public interface userInterface {
      * @param content 内容字符串
      * @return 设置好fromWho和id的blog
      */
-    public Blog postAndGetBlog(String content);
+    Blog postAndGetBlog(String content);
     /**
      * 根据content发布comment，同时返回Comment
      * @param content 内容字符串
      * @return 设置好fromWho和id的comment
      */
-    public Comment postAndGetComment(String content,long blogId);
+    Comment postAndGetComment(String content,long blogId);
     /**
      * 根据content发送message，同时返回Message
      * @param content 内容字符串
      * @return 设置好fromWho和id的Message
      */
-    public Message sendAndGetMessage(String content,long receiverId);
+    Message sendAndGetMessage(String content,long receiverId);
 }
