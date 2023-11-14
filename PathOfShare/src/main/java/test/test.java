@@ -1,4 +1,3 @@
-package test;
 import java.sql.*;
 //import edu.whu.*;
 import edu.whu.service.MySQL.MySqlHelper;
@@ -6,7 +5,9 @@ import edu.whu.service.MySQL.MySqlHelper;
 public class test {
     public static void main(String[] args) throws SQLException {
         try{
-            ResultSet rs = MySqlHelper.getResultSet("SELECT * FROM users");
+            //ResultSet rs = MySqlHelper.getResultSet("SELECT * FROM users");
+            MySqlHelper instance = MySqlHelper.getInstance();
+            ResultSet rs = instance.getResultSet("SELECT * FROM users");
             while(rs.next()){
                 // 通过字段检索
                 int id  = rs.getInt("userId");
@@ -17,7 +18,7 @@ public class test {
                 System.out.print("ID: " + id + " Name: " + name + " PassWd: " + passWord);
                 System.out.print("\n");
             }
-            MySqlHelper.closeResultSet();
+            instance.closeResultSet();
         }catch (SQLException se){
             se.printStackTrace();
         }

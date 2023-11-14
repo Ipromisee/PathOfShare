@@ -8,16 +8,38 @@ public class MySqlHelper {
     //自己修改密码
     static final String password = "23364464178";
 
-    static Connection connection = null;
-    static Statement statement = null;
-    static ResultSet resultSet = null;
+    Connection connection = null;
+    Statement statement = null;
+    ResultSet resultSet = null;
+
+    //单例模式，声明为内存可见性，用于多线程
+    private static volatile MySqlHelper instance;
+    private MySqlHelper(){
+        connection = null;
+        statement = null;
+        resultSet = null;
+    }
+
+    public static MySqlHelper getInstance() {
+        //用于多线程，防止线程竞争
+        MySqlHelper result = instance;
+        if (result != null) {
+            return result;
+        }
+        synchronized(MySqlHelper.class) {
+            if (instance == null) {
+                instance = new MySqlHelper();
+            }
+            return instance;
+        }
+    }
 
     /**
      * 获得ResultSet；用完后需要调用closeResultSet()释放资源
      * @param sql SQL查询语句，如SELECT * FROM *** WHERE ***
      * @return 对应的ResultSet
      */
-    public static ResultSet getResultSet(String sql){
+    public ResultSet getResultSet(String sql){
         try {
             // 建立数据库连接
             connection = DriverManager.getConnection(url, username, password);
@@ -36,7 +58,7 @@ public class MySqlHelper {
     /**
      * 释放资源，与getResultSet(String sql)一起使用
      */
-    public static void closeResultSet() {
+    public void closeResultSet() {
         try{
             resultSet.close();
             statement.close();
@@ -49,7 +71,7 @@ public class MySqlHelper {
      * 数据更新操作，不需要返回ResultSet的，输入SQL命令
      * @param cmd SQL命令，如DELETE、UPDATE
      */
-    public static void sqlCMD(String cmd){
+    public void sqlCMD(String cmd){
         try {
             // 建立数据库连接
             connection = DriverManager.getConnection(url, username, password);
