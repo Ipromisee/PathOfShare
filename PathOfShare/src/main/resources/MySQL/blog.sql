@@ -11,7 +11,7 @@
  Target Server Version : 80033
  File Encoding         : 65001
 
- Date: 14/11/2023 12:34:44
+ Date: 14/11/2023 19:40:22
 */
 
 SET NAMES utf8mb4;
@@ -25,18 +25,22 @@ CREATE TABLE `blogs`  (
   `blogId` int NOT NULL AUTO_INCREMENT,
   `userId` int NOT NULL,
   `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `fromWho` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `time` datetime NOT NULL,
   `visit` int NULL DEFAULT 0,
   `like` int NULL DEFAULT 0,
   PRIMARY KEY (`blogId`) USING BTREE,
   UNIQUE INDEX `blogId_UNIQUE`(`blogId` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blogs
 -- ----------------------------
-INSERT INTO `blogs` VALUES (1, 1, '555', NULL, NULL);
-INSERT INTO `blogs` VALUES (2, 2, '666', NULL, NULL);
-INSERT INTO `blogs` VALUES (3, 2, '6666', 0, 0);
+INSERT INTO `blogs` VALUES (4, 48, '111', 'user', '2023-11-14 19:24:01', 0, 0);
+INSERT INTO `blogs` VALUES (5, 48, '111', 'user', '2023-11-14 19:27:43', 0, 0);
+INSERT INTO `blogs` VALUES (6, 48, '222', 'user', '2023-11-14 19:27:43', 0, 0);
+INSERT INTO `blogs` VALUES (7, 48, '111', 'user', '2023-11-14 19:28:46', 0, 0);
+INSERT INTO `blogs` VALUES (8, 49, '222', 'manager', '2023-11-14 19:28:46', 0, 0);
 
 -- ----------------------------
 -- Table structure for comments
@@ -45,15 +49,18 @@ DROP TABLE IF EXISTS `comments`;
 CREATE TABLE `comments`  (
   `commentId` int NOT NULL AUTO_INCREMENT,
   `blogId` int NOT NULL,
+  `posterId` int NOT NULL,
   `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `fromWho` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `time` datetime NOT NULL,
   `like` int NULL DEFAULT 0,
-  PRIMARY KEY (`commentId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`commentId`) USING BTREE,
+  UNIQUE INDEX `commentId_UNIQUE`(`commentId` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of comments
 -- ----------------------------
-INSERT INTO `comments` VALUES (1, 2, '666', 0);
 
 -- ----------------------------
 -- Table structure for follows
@@ -63,8 +70,7 @@ CREATE TABLE `follows`  (
   `userId` int NOT NULL,
   `followTime` datetime NOT NULL,
   `followId` int NOT NULL,
-  PRIMARY KEY (`userId`) USING BTREE,
-  UNIQUE INDEX `userListId_UNIQUE`(`userId` ASC) USING BTREE
+  PRIMARY KEY (`userId`, `followId`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -76,12 +82,15 @@ CREATE TABLE `follows`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `messages`;
 CREATE TABLE `messages`  (
+  `messageId` int NOT NULL AUTO_INCREMENT,
   `senderId` int NOT NULL,
   `receiverId` int NOT NULL,
-  `time` datetime(3) NOT NULL,
+  `fromWho` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `time` datetime NOT NULL,
   `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
-  PRIMARY KEY (`senderId`, `receiverId`, `time`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`messageId`) USING BTREE,
+  UNIQUE INDEX `messageId_UNIQUE`(`messageId` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of messages
@@ -95,6 +104,7 @@ CREATE TABLE `users`  (
   `userId` int NOT NULL AUTO_INCREMENT,
   `userName` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `passWord` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `gender` tinyint NULL DEFAULT NULL,
   `email` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `tele` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
@@ -102,22 +112,25 @@ CREATE TABLE `users`  (
   `birthDay` date NULL DEFAULT NULL,
   PRIMARY KEY (`userId`) USING BTREE,
   UNIQUE INDEX `userId_UNIQUE`(`userId` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (1, '111', '123456', 1, '111@11.com', '123456', '111', '2023-11-13');
-INSERT INTO `users` VALUES (2, '22', '123456', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (3, '33', '123456', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (6, '123', '123456', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (7, '123', '123456', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (8, '123', '123456', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (9, '123', '123456', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (10, '123', '123456', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (11, '123', '123456', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (12, '123', '123456', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (13, 'insert', 'insert', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (48, '123', '123456', 'user', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (49, 'insert', 'insert', 'manager', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (50, '123', '123456', 'user', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (51, 'insert', 'insert', 'user', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (52, '123', '123456', 'user', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (53, 'insert', 'insert', 'user', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (54, '123', '123456', 'user', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (55, 'insert', 'insert', 'user', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (56, '123', '123456', 'user', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (57, 'insert', 'insert', 'user', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (58, '123', '123456', 'user', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (59, 'insert', 'insert', 'user', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (60, '123', '123456', 'user', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (61, 'insert', 'insert', 'user', NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for visitors
