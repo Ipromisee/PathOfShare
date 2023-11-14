@@ -11,7 +11,7 @@
  Target Server Version : 80033
  File Encoding         : 65001
 
- Date: 13/11/2023 21:06:47
+ Date: 14/11/2023 12:34:44
 */
 
 SET NAMES utf8mb4;
@@ -36,6 +36,7 @@ CREATE TABLE `blogs`  (
 -- ----------------------------
 INSERT INTO `blogs` VALUES (1, 1, '555', NULL, NULL);
 INSERT INTO `blogs` VALUES (2, 2, '666', NULL, NULL);
+INSERT INTO `blogs` VALUES (3, 2, '6666', 0, 0);
 
 -- ----------------------------
 -- Table structure for comments
@@ -60,7 +61,7 @@ INSERT INTO `comments` VALUES (1, 2, '666', 0);
 DROP TABLE IF EXISTS `follows`;
 CREATE TABLE `follows`  (
   `userId` int NOT NULL,
-  `followTime` date NOT NULL,
+  `followTime` datetime NOT NULL,
   `followId` int NOT NULL,
   PRIMARY KEY (`userId`) USING BTREE,
   UNIQUE INDEX `userListId_UNIQUE`(`userId` ASC) USING BTREE
@@ -109,6 +110,14 @@ CREATE TABLE `users`  (
 INSERT INTO `users` VALUES (1, '111', '123456', 1, '111@11.com', '123456', '111', '2023-11-13');
 INSERT INTO `users` VALUES (2, '22', '123456', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `users` VALUES (3, '33', '123456', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (6, '123', '123456', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (7, '123', '123456', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (8, '123', '123456', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (9, '123', '123456', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (10, '123', '123456', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (11, '123', '123456', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (12, '123', '123456', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (13, 'insert', 'insert', NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for visitors

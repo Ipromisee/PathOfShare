@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import edu.whu.service.MySQL.MySqlHelper;
+
+import java.text.SimpleDateFormat;
 
 import java.util.Date;
 
@@ -11,11 +14,11 @@ import java.util.Date;
 public class User {
     private static User instance = new User();
     @TableId(type = IdType.AUTO)
-    private long id;
+    private long userId;
     private String userName;
     private  String passWord;
     private Date birthDay;
-    private Boolean gender;
+    private int gender;
     private String tele;
     private String email;
     private String personalSignature;
@@ -28,11 +31,11 @@ public class User {
     }
 
     public long getId() {
-        return id;
+        return userId;
     }
 
     public void setId(long id) {
-        this.id = id;
+        this.userId = id;
     }
 
     public String getUserName() {
@@ -59,11 +62,11 @@ public class User {
         this.birthDay = birthDay;
     }
 
-    public Boolean getGender() {
+    public int getGender() {
         return gender;
     }
 
-    public void setGender(Boolean gender) {
+    public void setGender(int gender) {
         this.gender = gender;
     }
 
@@ -90,4 +93,30 @@ public class User {
     public void setPersonalSignature(String personalSignature) {
         this.personalSignature = personalSignature;
     }
+
+    //用户行为
+
+    /**
+     * 关注行为
+     * @param followId 被关注者ID
+     */
+    public void follow(long followId){
+        MySqlHelper sql = MySqlHelper.getInstance();
+        Date date = new Date();
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        sql.sqlCMD("INSERT INTO follows VALUES(?,?,?)",userId,dateFormat.format(date),followId);
+    }
+    /**
+     * 发布博客,同时设置博客id
+     * @param blog 博客对象
+     */
+    public void postBlog(Blog blog){
+        MySqlHelper sql = MySqlHelper.getInstance();
+        int blogId = sql.insertAndId("INSERT INTO blogs(userId,content) VALUES(?,?)",userId,blog.getContent());
+        blog.setBlogId(blogId);
+    }
+    /**
+     *
+     */
+
 }
