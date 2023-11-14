@@ -1,6 +1,7 @@
 package edu.whu.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -8,6 +9,7 @@ import java.util.Date;
 
 @TableName(value = "users")
 public class User {
+    private static User instance = new User();
     @TableId(type = IdType.AUTO)
     private long id;
     private String userName;
@@ -19,6 +21,10 @@ public class User {
     private String personalSignature;
 
     public User() {
+    }
+
+    public static User getInstance() {
+        return instance;
     }
 
     public long getId() {
