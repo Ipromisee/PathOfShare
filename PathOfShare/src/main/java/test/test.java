@@ -1,12 +1,14 @@
 import java.sql.*;
 //import edu.whu.*;
 import edu.whu.entity.User;
+import edu.whu.entity.users.CommenUser;
 import edu.whu.service.MySQL.MySqlHelper;
 
 public class test {
     public static void main(String[] args) throws SQLException {
         //测试查询功能getResultSet和closeResultSet两个函数
         try{
+            System.out.println("测试查询功能getResultSet和closeResultSet两个函数");
             //单例模式，先获得实例
             MySqlHelper instance = MySqlHelper.getInstance();
 
@@ -24,25 +26,31 @@ public class test {
                 System.out.print("\n");
             }
             instance.closeResultSet();
+            System.out.println("测试查询功能getResultSet和closeResultSet两个函数，成功");
         }catch (SQLException se){
             se.printStackTrace();
         }
+
         //测试数据更新功能,sqlCMD
         try{
+            System.out.println("测试数据更新功能,sqlCMD");
             MySqlHelper instance = MySqlHelper.getInstance();
 
             //测试是否使用占位符两种情况，注意users、blogs等表不需要我们插入id，会自动更新
             String name = "123";
             String passWord = "123456";
             //instance.sqlCMD("INSERT INTO users(userName,passWord) VALUES("+name+","+passWord+")");
-            instance.sqlCMD("INSERT INTO users(userName,passWord) VALUES(?,?)",name,passWord);
+            instance.sqlCMD("INSERT INTO users(userName,passWord,type) VALUES(?,?,?)",name,passWord,"user");
             //不需要close函数，资源在sqlCMD命令中自动释放
             //以上两种方法都是可以的
+            System.out.println("测试数据更新功能,sqlCMD，成功");
         }catch (Exception exception){
             exception.printStackTrace();
         }
+
         //测试获得单例的功能,getInstance
         try{
+            System.out.println("测试获得单例的功能,getInstance");
             MySqlHelper instance = MySqlHelper.getInstance();
             User aUser = instance.getInstance(User.class,"SELECT * FROM users WHERE userId = ?",1);
             if(aUser!=null){
@@ -53,17 +61,32 @@ public class test {
                 System.out.println("userGender："+aUser.getGender());
             }
             //该命令资源也已经释放，不需要close函数
+            System.out.println("测试获得单例的功能,getInstance，成功");
         }catch (Exception exception){
             exception.printStackTrace();
         }
+
         //测试插入并获取ID,insertAndId
         try{
+            System.out.println("测试插入并获取ID,insertAndId");
             MySqlHelper instance = MySqlHelper.getInstance();
             String name="insert",passWord="insert";
-            int id = instance.insertAndId("INSERT INTO users(userName,passWord) VALUES(?,?)",name,passWord);
+            int id = instance.insertAndId("INSERT INTO users(userName,passWord,type) VALUES(?,?,?)",name,passWord,"user");
             System.out.println("the Id of insert："+id);
+            System.out.println("测试插入并获取ID,insertAndId，成功");
         }catch (Exception ex){
             ex.printStackTrace();
         }
+
+        //测试抽象工厂方法
+        User aUser ;
+        MySqlHelper sqlHelper = MySqlHelper.getInstance();
+        aUser = sqlHelper.getInstance(User.class,"SELECT * FROM users WHERE userId = ?",1);
+        if(aUser.getType()=="user"){
+            aUser = (CommenUser)aUser;
+            System.out.println("this is a common user");
+            //((CommenUser) aUser).postAndGetBlog()
+        }
+
     }
 }

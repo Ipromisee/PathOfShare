@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.util.Date;
+
 @TableName(value = "blog")
-public class Blog {
+public abstract class Blog {
     @TableId(type = IdType.AUTO)
     private long blogId;
     private long userId;
@@ -13,9 +15,19 @@ public class Blog {
     private int visit;
     private int like;
 
+    private String fromWho = null;
+    private Date time;
+
     public Blog() {
     }
 
+    public Blog(long userId, String content) {
+        this.userId = userId;
+        this.content = content;
+        this.visit = 0;
+        this.like = 0;
+        this.time = new Date();
+    }
     public Blog(long blogId, long userId, String content, int visit, int like) {
         this.blogId = blogId;
         this.userId = userId;
@@ -62,5 +74,17 @@ public class Blog {
 
     public void setLike(int like) {
         this.like = like;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public String getFromWho() {
+        return fromWho;
+    }
+
+    public void setFromWho(String fromWho) {
+        this.fromWho = fromWho;
     }
 }
