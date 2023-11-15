@@ -11,7 +11,7 @@
  Target Server Version : 80033
  File Encoding         : 65001
 
- Date: 15/11/2023 19:22:38
+ Date: 15/11/2023 19:48:11
 */
 
 SET NAMES utf8mb4;
@@ -38,15 +38,9 @@ CREATE TABLE `blogs`  (
 -- ----------------------------
 -- Records of blogs
 -- ----------------------------
-INSERT INTO `blogs` VALUES (4, 48, '111', 'user', '2023-11-14 19:24:01', 0, 0);
-INSERT INTO `blogs` VALUES (5, 48, '111', 'user', '2023-11-14 19:27:43', 0, 0);
-INSERT INTO `blogs` VALUES (6, 48, '222', 'user', '2023-11-14 19:27:43', 0, 0);
-INSERT INTO `blogs` VALUES (7, 48, '111', 'user', '2023-11-14 19:28:46', 0, 0);
-INSERT INTO `blogs` VALUES (8, 49, '222', 'manager', '2023-11-14 19:28:46', 0, 0);
-INSERT INTO `blogs` VALUES (9, 48, '111111111111111', 'user', '2023-11-15 18:18:24', 0, 0);
-INSERT INTO `blogs` VALUES (10, 48, '\n111\n1111\n11111\n', 'user', '2023-11-15 18:27:49', 0, 0);
-INSERT INTO `blogs` VALUES (11, 48, '\n22\n222\n2222\n22222\n', 'user', '2023-11-15 18:29:49', 0, 0);
-INSERT INTO `blogs` VALUES (12, 48, '\n111\n', 'user', '2023-11-15 18:58:25', 0, 0);
+INSERT INTO `blogs` VALUES (13, 1, '\nthis is a blog\nfrom a common user\nthe class is commonBlog\n', 'user', '2023-11-15 19:41:32', 0, 0);
+INSERT INTO `blogs` VALUES (14, 2, '\nthis is a blog\nfrom a manager\nthe class is managerBlog\n', 'manager', '2023-11-15 19:42:26', 0, 0);
+INSERT INTO `blogs` VALUES (15, 3, '\nthis is a blog\nfrom a visitor\nthe class is visitorBlog\n', 'visitor', '2023-11-15 19:43:38', 0, 0);
 
 -- ----------------------------
 -- Table structure for comments
@@ -133,19 +127,8 @@ CREATE TABLE `users`  (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (48, '123', '123456', 'user', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (49, 'insert', 'insert', 'manager', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (50, '123', '123456', 'user', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (51, 'insert', 'insert', 'user', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (52, '123', '123456', 'user', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (53, 'insert', 'insert', 'user', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (54, '123', '123456', 'user', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (55, 'insert', 'insert', 'user', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (56, '123', '123456', 'user', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (57, 'insert', 'insert', 'user', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (58, '123', '123456', 'user', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (59, 'insert', 'insert', 'user', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (60, '123', '123456', 'user', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `users` VALUES (61, 'insert', 'insert', 'user', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (1, 'user', '123456', 'user', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (2, 'manager', '123456', 'manager', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `users` VALUES (3, 'visitor', '123456', 'visitor', NULL, NULL, NULL, NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

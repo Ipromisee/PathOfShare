@@ -168,6 +168,7 @@ public class test {
             }
             MessageController.message("是否退出程序？ 输入 y 继续，其他退出");
             ch = scanner.next();
+            scanner.nextLine();
         } while (ch.equals("y"));
         scanner.close();
     }
