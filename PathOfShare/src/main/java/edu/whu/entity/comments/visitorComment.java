@@ -7,6 +7,9 @@ public class visitorComment extends Comment {
         super(posterId, blogId, content);
         setFromWho("visitor");
     }
+    public visitorComment(){
+        setFromWho("visitor");
+    }
     @Override
     public void show() {
         System.out.println("【游客】"+getContent());

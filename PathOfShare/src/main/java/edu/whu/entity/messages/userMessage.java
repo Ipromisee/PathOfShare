@@ -7,6 +7,9 @@ public class userMessage extends Message {
         super(senderId, receiverId, content);
         setFromWho("user");
     }
+    public userMessage(){
+        setFromWho("user");
+    }
     @Override
     public void show() {
         System.out.println(getContent());

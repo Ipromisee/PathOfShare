@@ -7,6 +7,10 @@ public class userBlog extends Blog {
         super(userId,content);
         setFromWho("user");
     }
+    public userBlog(){
+        super();
+        setFromWho("user");
+    }
     @Override
     public void show() {
         System.out.println(getContent());

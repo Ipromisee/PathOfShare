@@ -7,6 +7,10 @@ public class visitorBlog extends Blog {
         super(userId,content);
         setFromWho("visitor");
     }
+    public visitorBlog(){
+        super();
+        setFromWho("visitor");
+    }
     @Override
     public void show() {
         System.out.println("【游客】"+getContent());

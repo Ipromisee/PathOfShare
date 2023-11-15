@@ -7,6 +7,9 @@ public class userComment extends Comment {
         super(posterId, blogId, content);
         setFromWho("user");
     }
+    public userComment(){
+        setFromWho("user");
+    }
     @Override
     public void show() {
         System.out.println(getContent());

@@ -11,7 +11,7 @@
  Target Server Version : 80033
  File Encoding         : 65001
 
- Date: 14/11/2023 19:40:22
+ Date: 15/11/2023 19:22:38
 */
 
 SET NAMES utf8mb4;
@@ -30,8 +30,10 @@ CREATE TABLE `blogs`  (
   `visit` int NULL DEFAULT 0,
   `like` int NULL DEFAULT 0,
   PRIMARY KEY (`blogId`) USING BTREE,
-  UNIQUE INDEX `blogId_UNIQUE`(`blogId` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  UNIQUE INDEX `blogId_UNIQUE`(`blogId` ASC) USING BTREE,
+  INDEX `userId`(`userId` ASC) USING BTREE,
+  CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blogs
@@ -41,6 +43,10 @@ INSERT INTO `blogs` VALUES (5, 48, '111', 'user', '2023-11-14 19:27:43', 0, 0);
 INSERT INTO `blogs` VALUES (6, 48, '222', 'user', '2023-11-14 19:27:43', 0, 0);
 INSERT INTO `blogs` VALUES (7, 48, '111', 'user', '2023-11-14 19:28:46', 0, 0);
 INSERT INTO `blogs` VALUES (8, 49, '222', 'manager', '2023-11-14 19:28:46', 0, 0);
+INSERT INTO `blogs` VALUES (9, 48, '111111111111111', 'user', '2023-11-15 18:18:24', 0, 0);
+INSERT INTO `blogs` VALUES (10, 48, '\n111\n1111\n11111\n', 'user', '2023-11-15 18:27:49', 0, 0);
+INSERT INTO `blogs` VALUES (11, 48, '\n22\n222\n2222\n22222\n', 'user', '2023-11-15 18:29:49', 0, 0);
+INSERT INTO `blogs` VALUES (12, 48, '\n111\n', 'user', '2023-11-15 18:58:25', 0, 0);
 
 -- ----------------------------
 -- Table structure for comments
@@ -55,8 +61,12 @@ CREATE TABLE `comments`  (
   `time` datetime NOT NULL,
   `like` int NULL DEFAULT 0,
   PRIMARY KEY (`commentId`) USING BTREE,
-  UNIQUE INDEX `commentId_UNIQUE`(`commentId` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  UNIQUE INDEX `commentId_UNIQUE`(`commentId` ASC) USING BTREE,
+  INDEX `blogId`(`blogId` ASC) USING BTREE,
+  INDEX `posterId`(`posterId` ASC) USING BTREE,
+  CONSTRAINT `blogId` FOREIGN KEY (`blogId`) REFERENCES `blogs` (`blogId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `posterId` FOREIGN KEY (`posterId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of comments
@@ -70,7 +80,9 @@ CREATE TABLE `follows`  (
   `userId` int NOT NULL,
   `followTime` datetime NOT NULL,
   `followId` int NOT NULL,
-  PRIMARY KEY (`userId`, `followId`) USING BTREE
+  PRIMARY KEY (`userId`, `followId`) USING BTREE,
+  CONSTRAINT `follows_userId` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `follows_followId` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -89,7 +101,11 @@ CREATE TABLE `messages`  (
   `time` datetime NOT NULL,
   `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
   PRIMARY KEY (`messageId`) USING BTREE,
-  UNIQUE INDEX `messageId_UNIQUE`(`messageId` ASC) USING BTREE
+  UNIQUE INDEX `messageId_UNIQUE`(`messageId` ASC) USING BTREE,
+  INDEX `messages_receiverId`(`receiverId` ASC) USING BTREE,
+  INDEX `messages_senderId`(`senderId` ASC) USING BTREE,
+  CONSTRAINT `messages_receiverId` FOREIGN KEY (`receiverId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `messages_senderId` FOREIGN KEY (`senderId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -112,7 +128,7 @@ CREATE TABLE `users`  (
   `birthDay` date NULL DEFAULT NULL,
   PRIMARY KEY (`userId`) USING BTREE,
   UNIQUE INDEX `userId_UNIQUE`(`userId` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 62 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of users
@@ -131,19 +147,5 @@ INSERT INTO `users` VALUES (58, '123', '123456', 'user', NULL, NULL, NULL, NULL,
 INSERT INTO `users` VALUES (59, 'insert', 'insert', 'user', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `users` VALUES (60, '123', '123456', 'user', NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `users` VALUES (61, 'insert', 'insert', 'user', NULL, NULL, NULL, NULL, NULL);
-
--- ----------------------------
--- Table structure for visitors
--- ----------------------------
-DROP TABLE IF EXISTS `visitors`;
-CREATE TABLE `visitors`  (
-  `visitorId` int NOT NULL AUTO_INCREMENT,
-  `visitorName` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`visitorId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of visitors
--- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;

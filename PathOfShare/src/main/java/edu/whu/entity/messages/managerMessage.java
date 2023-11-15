@@ -7,6 +7,9 @@ public class managerMessage extends Message {
         super(senderId, receiverId, content);
         setFromWho("manager");
     }
+    public managerMessage(){
+        setFromWho("manager");
+    }
     @Override
     public void show() {
         System.out.println("【管理员】"+getContent());

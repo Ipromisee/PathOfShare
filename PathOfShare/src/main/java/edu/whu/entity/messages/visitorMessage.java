@@ -7,6 +7,9 @@ public class visitorMessage extends Message {
         super(senderId, receiverId, content);
         setFromWho("visitor");
     }
+    public visitorMessage(){
+        setFromWho("visitor");
+    }
     @Override
     public void show() {
         System.out.println("【游客】"+getContent());

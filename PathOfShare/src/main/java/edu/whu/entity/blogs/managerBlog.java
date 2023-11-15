@@ -7,6 +7,10 @@ public class managerBlog extends Blog {
         super(userId,content);
         setFromWho("manager");
     }
+    public managerBlog(){
+        super();
+        setFromWho("manager");
+    }
     @Override
     public void show() {
         System.out.println("【管理员】"+getContent());

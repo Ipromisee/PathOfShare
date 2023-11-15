@@ -1,12 +1,16 @@
 import java.sql.*;
+import java.util.Scanner;
 //import edu.whu.*;
+import edu.whu.controller.BlogController;
+import edu.whu.controller.MessageController;
+import edu.whu.controller.UserController;
 import edu.whu.entity.Blog;
 import edu.whu.entity.User;
 import edu.whu.entity.users.CommenUser;
 import edu.whu.service.MySQL.MySqlHelper;
 
 public class test {
-    public static void main(String[] args) throws SQLException {
+    public static void sqlTest() throws SQLException {
         //测试查询功能getResultSet和closeResultSet两个函数
         try{
             System.out.println("测试查询功能getResultSet和closeResultSet两个函数");
@@ -113,5 +117,61 @@ public class test {
             System.out.println("displayContent:"+blog.displayContent());
         }
         System.out.println("测试抽象工厂方法，结束\n\n");
+    }
+    public static void blogFunction(){
+        System.out.println("欢迎使用Share Of Path(*￣3￣)╭");
+        Scanner scanner = new Scanner(System.in);
+        String ch;
+        do {
+            do {
+                MessageController.message("正在登录...");
+                MessageController.message("请输入用户ID");
+                String userId = scanner.nextLine();
+                MessageController.message("请输入密码");
+                String passWord = scanner.nextLine();
+                UserController.logIn(userId,passWord);
+            } while (UserController.getLogInUser()==null);
+
+            logIn: while(UserController.getLogInUser()!=null)
+            {
+                MessageController.message("用户 "+UserController.getLogInUser().getUserName()+" 你好！现在想要干什么呢？");
+                MessageController.message("【0】-退出登录----【1】-发布博客----【2】-查看博客----【3】-刷博客");
+                int choice = scanner.nextInt();
+                switch (choice){
+                    case 0:
+                        UserController.logOut();
+                        break logIn;
+                    case 1:
+                        MessageController.message("请输入博客内容,enter换行，0表示结束");
+                        StringBuilder content = new StringBuilder();
+                        do {
+                            String string = scanner.nextLine();
+                            if (string.equals("0")) break;
+                            content.append(string);
+                            content.append("\n");
+                        } while (true);
+                        Blog blog = UserController.getLogInUser().postAndGetBlog(content.toString());
+                        MessageController.successMessage("发布博客");
+                        BlogController.showBlog(blog);
+                        break ;
+                    case 2:
+                        //只有自己的
+                        BlogController.showBlogs(UserController.getLogInUser());
+                        break ;
+                    case 3:
+                        //选十条
+                        BlogController.showBlogs();
+                        break ;
+                    default:
+                        MessageController.message("请输入正确的指令");
+                }
+            }
+            MessageController.message("是否退出程序？ 输入 y 继续，其他退出");
+            ch = scanner.next();
+        } while (ch.equals("y"));
+        scanner.close();
+    }
+    public static void main(String[] args) {
+        blogFunction();
     }
 }

@@ -7,6 +7,9 @@ public class managerComment extends Comment {
         super(posterId, blogId, content);
         setFromWho("manager");
     }
+    public managerComment(){
+        setFromWho("manager");
+    }
     @Override
     public void show() {
         System.out.println("【管理员】"+getContent());

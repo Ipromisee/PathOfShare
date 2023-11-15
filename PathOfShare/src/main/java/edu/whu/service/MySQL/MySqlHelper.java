@@ -19,6 +19,7 @@ import edu.whu.entity.users.VisitorUser;
 
 import java.lang.reflect.Field;
 import java.sql.*;
+import java.time.LocalDateTime;
 
 public class MySqlHelper {
     static final String url = "jdbc:mysql://localhost:3306/blog";
@@ -300,6 +301,10 @@ public class MySqlHelper {
 
                         // 给t对象指定的columnName属性，赋值为columValue：通过反射
                         Field field = clazz.getDeclaredField(columnLabel);
+                        // 处理sql中datatime 和java中Date类型不匹配问题
+                        if (columValue.getClass().toString().equals("class java.time.LocalDateTime")){
+                            columValue = Timestamp.valueOf((LocalDateTime) columValue);
+                        }
                         field.setAccessible(true);
                         field.set(t, columValue);
                     }
@@ -322,10 +327,5 @@ public class MySqlHelper {
             }
         }
         return null;
-    }
-    private <T> void get(Class<T> clazz){
-        if(clazz.equals(User.class)){
-
-        }
     }
 }
