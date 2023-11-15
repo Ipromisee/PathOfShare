@@ -2,6 +2,7 @@ package edu.whu.controller;
 
 import edu.whu.entity.User;
 import edu.whu.service.MySQL.MySqlHelper;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,6 +41,7 @@ public class UserController {
      * @param passWord 密码
      * @return 用户实例
      */
+    @GetMapping("/login")
     public static User logIn(String userId, String passWord){
         MySqlHelper instance = MySqlHelper.getInstance();
         User newUser = instance.getInstance(User.class,"SELECT * FROM users WHERE userId = ?",userId);
@@ -59,6 +61,8 @@ public class UserController {
             return null;
         }
     }
+
+    @GetMapping("/logout")
     public static void logOut(){
         if(logInUser!=null){
             setLogInUser(null);
