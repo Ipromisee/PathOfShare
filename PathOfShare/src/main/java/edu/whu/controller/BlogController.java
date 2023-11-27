@@ -3,11 +3,14 @@ package edu.whu.controller;
 import edu.whu.entity.Blog;
 import edu.whu.entity.User;
 import edu.whu.service.MySQL.MySqlHelper;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 @RestController
@@ -48,24 +51,36 @@ public class BlogController {
      * 展示该用户所有博客
      * @param user
      */
-    public static void showBlogs(User user){
-        MessageController.message("用户 ".concat(user.getUserName()).concat(" 你好！以下是你所有发布的博客："));
+    @GetMapping("/getByUser/{userid}")
+    public ResponseEntity<List<Blog>> showBlogs(@PathVariable int userid){
+        // MessageController.message("用户 ".concat(user.getUserName()).concat(" 你好！以下是你所有发布的博客："));
         try{
             MySqlHelper instance = MySqlHelper.getInstance();
-            ResultSet rs = instance.getResultSet("SELECT blogId FROM blogs WHERE userId = ?",user.getId());
+            ResultSet rs = instance.getResultSet("SELECT blogId FROM blogs WHERE userId = ?",userid);
             Vector<Long> blogIds = new Vector<Long>();
             while (rs.next()){
                 Long id = rs.getLong("blogId");
                 blogIds.add(id);
             }
+            List<Blog> result = new ArrayList<>();
             for (Long blogId:
                  blogIds) {
                 Blog blog = instance.getInstance(Blog.class,"SELECT * FROM blogs WHERE blogId = ?",blogId);
+                result.add(blog);
                 BlogController.showBlog(blog);
             }
+            return ResponseEntity.ok(result);
         }catch (SQLException ex){
             ex.printStackTrace();
+            return ResponseEntity.badRequest().build();
         }
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<String> addBlog(int userid, String userType, String content) {
+        MySqlHelper instance = MySqlHelper.getInstance();
+        instance.insertAndId("INSERT INTO blogs (userId, content, fromWho, time) VALUES (?, ?, ?, ?)", userid, content, userType, LocalDateTime.now());
+        return ResponseEntity.ok().build();
     }
 
     /**

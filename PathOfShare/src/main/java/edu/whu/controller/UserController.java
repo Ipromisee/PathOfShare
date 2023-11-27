@@ -41,8 +41,8 @@ public class UserController {
      * @param passWord 密码
      * @return 用户实例
      */
-    @GetMapping("/login/{userId}/password/{passWord}")
-    public ResponseEntity<User> logIn(@PathVariable long userId, @PathVariable String passWord){
+    @GetMapping("/login")
+    public ResponseEntity<User> logIn(long userId, String passWord){
         MySqlHelper instance = MySqlHelper.getInstance();
         User newUser = instance.getInstance(User.class,"SELECT * FROM users WHERE userId = ?",userId);
         if(newUser!=null){//存在该用户
