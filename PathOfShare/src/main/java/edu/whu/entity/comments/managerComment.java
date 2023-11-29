@@ -3,7 +3,7 @@ package edu.whu.entity.comments;
 import edu.whu.entity.Comment;
 
 public class managerComment extends Comment {
-    public managerComment(long posterId, long blogId, String content){
+    public managerComment(Integer posterId, Integer blogId, String content){
         super(posterId, blogId, content);
         setFromWho("manager");
     }

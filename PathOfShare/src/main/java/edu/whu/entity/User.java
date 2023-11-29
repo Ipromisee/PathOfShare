@@ -1,7 +1,6 @@
 package edu.whu.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import edu.whu.service.MySQL.MySqlHelper;
@@ -15,7 +14,7 @@ import java.util.Date;
 public abstract class User {
     //private static User instance = new User();
     @TableId(type = IdType.AUTO)
-    private long userId;
+    private Integer userId;
     private String userName;
     private  String passWord;
     private Date birthDay;
@@ -33,11 +32,11 @@ public abstract class User {
         return instance;
     }*/
 
-    public long getId() {
+    public Integer getId() {
         return userId;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.userId = id;
     }
 
@@ -117,7 +116,7 @@ public abstract class User {
      * 关注行为
      * @param followId 被关注者ID
      */
-    public void follow(long followId) throws SQLException {
+    public void follow(Integer followId) throws SQLException {
         MySqlHelper sql = MySqlHelper.getInstance();
         Date date = new Date();
         SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -279,11 +278,11 @@ public abstract class User {
      * @param content 内容字符串
      * @return 设置好fromWho和id的comment
      */
-    public abstract Comment postAndGetComment(String content,long blogId) throws SQLException ;
+    public abstract Comment postAndGetComment(String content,Integer blogId) throws SQLException ;
     /**
      * 根据content发送message，同时返回Message
      * @param content 内容字符串
      * @return 设置好fromWho和id的Message
      */
-    public abstract Message sendAndGetMessage(String content,long receiverId) throws SQLException ;
+    public abstract Message sendAndGetMessage(String content,Integer receiverId) throws SQLException ;
 }

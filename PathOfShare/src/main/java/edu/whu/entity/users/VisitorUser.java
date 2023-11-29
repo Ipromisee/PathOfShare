@@ -24,14 +24,14 @@ public class VisitorUser extends User {
     }
 
     @Override
-    public Comment postAndGetComment(String content, long blogId) throws SQLException  {
+    public Comment postAndGetComment(String content, Integer blogId) throws SQLException  {
         Comment comment = new visitorComment(getId(),blogId,content);
         postComment(comment);
         return comment;
     }
 
     @Override
-    public Message sendAndGetMessage(String content, long receiverId) throws SQLException  {
+    public Message sendAndGetMessage(String content, Integer receiverId) throws SQLException  {
         Message message = new visitorMessage(getId(),receiverId,content);
         sendMessage(message);
         return message;

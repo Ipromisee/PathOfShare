@@ -9,8 +9,8 @@ import java.util.Date;
 @TableName(value = "blog")
 public abstract class Blog {
     @TableId(type = IdType.AUTO)
-    private long blogId;
-    private long userId;
+    private Integer blogId;
+    private Integer userId;
     private String content;
     private int visit;
     private int like;
@@ -23,7 +23,7 @@ public abstract class Blog {
     public Blog() {
     }
 
-    public Blog(long userId, String content ,String title) {
+    public Blog(Integer userId, String content ,String title) {
         this.userId = userId;
         this.content = content;
         this.visit = 0;
@@ -31,7 +31,7 @@ public abstract class Blog {
         this.time = new Date();
         this.title = title;
     }
-    public Blog(long blogId, long userId, String content, int visit, int like) {
+    public Blog(Integer blogId, Integer userId, String content, int visit, int like) {
         this.blogId = blogId;
         this.userId = userId;
         this.content = content;
@@ -39,19 +39,19 @@ public abstract class Blog {
         this.like = like;
     }
 
-    public long getBlogId() {
+    public Integer getBlogId() {
         return blogId;
     }
 
-    public void setBlogId(long blogId) {
+    public void setBlogId(Integer blogId) {
         this.blogId = blogId;
     }
 
-    public long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

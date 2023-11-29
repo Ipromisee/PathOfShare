@@ -3,7 +3,7 @@ package edu.whu.entity.messages;
 import edu.whu.entity.Message;
 
 public class userMessage extends Message {
-    public userMessage(long senderId, long receiverId, String content){
+    public userMessage(Integer senderId, Integer receiverId, String content){
         super(senderId, receiverId, content);
         setFromWho("user");
     }

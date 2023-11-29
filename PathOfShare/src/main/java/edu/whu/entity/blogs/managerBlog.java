@@ -3,7 +3,7 @@ package edu.whu.entity.blogs;
 import edu.whu.entity.Blog;
 
 public class managerBlog extends Blog {
-    public managerBlog(long userId, String content ,String title){
+    public managerBlog(Integer userId, String content ,String title){
         super(userId,content,title);
         setFromWho("manager");
     }
