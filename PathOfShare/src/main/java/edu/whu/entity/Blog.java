@@ -18,15 +18,18 @@ public abstract class Blog {
     private String fromWho = null;
     private Date time;
 
+    private String title;
+
     public Blog() {
     }
 
-    public Blog(long userId, String content) {
+    public Blog(long userId, String content ,String title) {
         this.userId = userId;
         this.content = content;
         this.visit = 0;
         this.like = 0;
         this.time = new Date();
+        this.title = title;
     }
     public Blog(long blogId, long userId, String content, int visit, int like) {
         this.blogId = blogId;
@@ -87,6 +90,10 @@ public abstract class Blog {
     public void setFromWho(String fromWho) {
         this.fromWho = fromWho;
     }
+
+    public void setTitle(String title) { this.title = title; }
+
+    public String getTitle() { return title; }
 
     //抽象方法
     /**

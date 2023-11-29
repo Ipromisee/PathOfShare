@@ -73,14 +73,24 @@ public class BlogController {
         }catch (SQLException ex){
             ex.printStackTrace();
             return ResponseEntity.badRequest().build();
+        }catch (Exception e){
+
         }
+        return ResponseEntity.badRequest().build();
     }
 
     @PostMapping("/add")
     public ResponseEntity<String> addBlog(int userid, String userType, String content) {
-        MySqlHelper instance = MySqlHelper.getInstance();
-        instance.insertAndId("INSERT INTO blogs (userId, content, fromWho, time) VALUES (?, ?, ?, ?)", userid, content, userType, LocalDateTime.now());
-        return ResponseEntity.ok().build();
+        try {
+            MySqlHelper instance = MySqlHelper.getInstance();
+            instance.insertAndId("INSERT INTO blogs (userId, content, fromWho, time) VALUES (?, ?, ?, ?)", userid, content, userType, LocalDateTime.now());
+            return ResponseEntity.ok().build();
+        }catch (SQLException e){
+
+        }catch (Exception e){
+
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     /**
@@ -103,6 +113,8 @@ public class BlogController {
             }
         }catch (SQLException ex){
             ex.printStackTrace();
+        }catch (Exception e){
+
         }
     }
 }
