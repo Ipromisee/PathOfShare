@@ -49,7 +49,7 @@ public class BlogController {
 
     /**
      * 展示该用户所有博客
-     * @param user
+     * @param userid
      */
     @GetMapping("/getByUser/{userid}")
     public ResponseEntity<List<Blog>> showBlogs(@PathVariable int userid){
