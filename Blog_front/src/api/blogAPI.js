@@ -1,9 +1,13 @@
 import request from "@/util/request";
 
-const getBlogAPI = (userid) => {
-    return request.get("/blog/getByUser/" + userid);
+export const getBlogAPI = (blogid) => {
+    return request.get("/blog/showBlog?blogid=" + blogid);
 }
 
-const addBlogAPI = (data) => {
+export const getAllBlogAPI = () => {
+    return request.get("/blog/getAll");
+}
+
+export const addBlogAPI = (data) => {
     return request.post("/blog/add", data);
 }

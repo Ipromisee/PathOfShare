@@ -72,7 +72,6 @@ public class UserController {
             result.put("error","数据库错误");
             return ResponseEntity.badRequest().body(result);
         }
-        //return ResponseEntity.badRequest().body(result);
     }
 
     @GetMapping("/logout")

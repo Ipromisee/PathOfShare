@@ -2,20 +2,15 @@
   import blogCardView from "./BlogCardView.vue"
   import blogDisplayView from "./BlogDisplayView.vue"
   import returnIcon from "@icon-park/vue-next/lib/icons/Return"
-  import {ref} from "vue";
+  import {ref, onMounted} from "vue";
+  import {getBlogAPI, getAllBlogAPI} from "@/api/blogAPI";
 
-  const blogs = ref([
-    {
-      id: 0,
-      title: "title1",
-      date: new Date()
-    },
-    {
-      id: 1,
-      title: "title2",
-      date: new Date()
-    }
-  ])
+  const blogs = ref([]);
+
+  onMounted(async () => {
+    const response = await getAllBlogAPI();
+    blogs.value.push.apply(blogs.value, response);
+  })
 
   const currentMode = ref("brief")
 
