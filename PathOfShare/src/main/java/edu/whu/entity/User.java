@@ -128,7 +128,7 @@ public abstract class User {
      */
     public void postBlog(Blog blog) throws SQLException {
         MySqlHelper sql = MySqlHelper.getInstance();
-        int blogId = sql.insertAndId("INSERT INTO blogs(userId,content,time,fromWho) VALUES(?,?,?,?)",userId,blog.getContent(),new Date(),blog.getFromWho());
+        int blogId = sql.insertAndId("INSERT INTO blogs(userId,content,time,fromWho,title) VALUES(?,?,?,?,?)",userId,blog.getContent(),new Date(),blog.getFromWho(),blog.getTitle());
         blog.setBlogId(blogId);
     }
     /**
