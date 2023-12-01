@@ -19,13 +19,14 @@ import edu.whu.entity.users.VisitorUser;
 
 import java.lang.reflect.Field;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
 public class MySqlHelper {
     static final String url = "jdbc:mysql://localhost:3306/blog";
     static final String username = "root";
     //自己修改密码
-    static final String password = "159463728";
+    static final String password = "23364464178";
 
     Connection connection = null;
     Statement statement = null;
@@ -270,7 +271,10 @@ public class MySqlHelper {
                     Field field = clazz.getDeclaredField(columnLabel);
                     // 处理sql中datatime 和java中Date类型不匹配问题
                     if (columValue.getClass().toString().equals("class java.time.LocalDateTime")){
-                        columValue = Timestamp.valueOf((LocalDateTime) columValue);
+                        //columValue = Timestamp.valueOf((LocalDateTime) columValue);
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String formattedDateTime = formatter.format(Timestamp.valueOf((LocalDateTime) columValue));
+                        columValue = formattedDateTime;
                     }
                     field.setAccessible(true);
                     field.set(t, columValue);
