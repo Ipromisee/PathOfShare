@@ -5,5 +5,5 @@ export const loginAPI = (data) => {
     for (var key in data) {
         params.append(key, data[key]);
     }
-    return request.get("/user/login", params)
+    return request.get("/user/login", {params: params})
 }

@@ -11,7 +11,7 @@
 
   const login = async () => {
     const data = {
-      "userid": account.value,
+      "userId": account.value,
       "passWord": password.value
     }
     await loginAPI(data)
