@@ -17,7 +17,7 @@ public abstract class Comment {
 
     private Integer posterId;
     private String fromWho = null;
-    private Date time;
+    private String time;
 
     public Comment() {
     }
@@ -27,7 +27,7 @@ public abstract class Comment {
         this.blogId = blogId;
         this.content = content;
         this.likes = 0;
-        this.time = new Date();
+        this.time = String.valueOf(new Date());
     }
     public Comment(Integer commentId, Integer blogId, String content, int likes) {
         this.commentId = commentId;
@@ -68,7 +68,7 @@ public abstract class Comment {
         this.likes = likes;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 

@@ -16,7 +16,7 @@ public abstract class Blog {
     private int like;
 
     private String fromWho = null;
-    private Date time;
+    private String time;
 
     private String title;
 
@@ -28,7 +28,7 @@ public abstract class Blog {
         this.content = content;
         this.visit = 0;
         this.like = 0;
-        this.time = new Date();
+        this.time = String.valueOf(new Date());
         this.title = title;
     }
     public Blog(Integer blogId, Integer userId, String content, int visit, int like) {
@@ -79,7 +79,7 @@ public abstract class Blog {
         this.like = like;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
