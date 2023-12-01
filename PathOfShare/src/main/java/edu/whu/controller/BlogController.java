@@ -95,48 +95,46 @@ public class BlogController {
         return ResponseEntity.badRequest().build();
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<String> addBlog(int userid, String userType, String content) {
+    @PostMapping("/postBlog")
+    public ResponseEntity<Map<String , String>> postBlog(int userId, String userType, String content , String title) {
+        Map<String , String> result = new HashMap<>();
         try {
             MySqlHelper instance = MySqlHelper.getInstance();
-            instance.insertAndId("INSERT INTO blogs (userId, content, fromWho, time) VALUES (?, ?, ?, ?)", userid, content, userType, LocalDateTime.now());
-            return ResponseEntity.ok().build();
+            int blogId = instance.insertAndId("INSERT INTO blogs (userId, content, fromWho, time,title) VALUES (?, ?, ?, ?,?)", userId, content, userType, LocalDateTime.now(),title);
+            result.put("success","发布成功");
+            result.put("blogId",String.valueOf(blogId));
+            return ResponseEntity.ok(result);
         }catch (SQLException e){
-
+            result.put("error","数据库出现错误");
+            ResponseEntity.badRequest().body(result);
         }catch (Exception e){
-
+            result.put("error","类型判断错误，请检查type或fromWho");
+            ResponseEntity.badRequest().body(result);
+        }
+        return ResponseEntity.badRequest().build();
+    }
+    @DeleteMapping("/deleteBlog")
+    public ResponseEntity<Map<String , String>> deleteBlog(int blogId) {
+        Map<String , String> result = new HashMap<>();
+        try {
+            MySqlHelper instance = MySqlHelper.getInstance();
+            int affectedRows = instance.sqlCMD("DELETE FROM blogs WHERE blogId = ?",blogId);
+            if(affectedRows>0){//影响行数大于0，说明有操作
+                result.put("success","删除成功");
+                return ResponseEntity.ok(result);
+            }
+            else{
+                result.put("error","删除失败，请检查blogId是否存在");
+                return ResponseEntity.ok(result);
+            }
+        }catch (SQLException e){
+            result.put("error","数据库出现错误");
+            ResponseEntity.badRequest().body(result);
+        }catch (Exception e){
+            result.put("error","类型判断错误，请检查type或fromWho");
+            ResponseEntity.badRequest().body(result);
         }
         return ResponseEntity.badRequest().build();
     }
 
-    /**
-     * 从blog表中选取10条博客
-     */
-//    public static void showBlogs(){
-//        MessageController.message("正在刷取博客：");
-//        try{
-//            MySqlHelper instance = MySqlHelper.getInstance();
-//            ResultSet rs = instance.getResultSet("SELECT blogId FROM blogs");
-//            Vector<Long> blogIds = new Vector<Long>();
-//            while (rs.next() && blogIds.size()<=10){
-//                Long id = rs.getLong("blogId");
-//                blogIds.add(id);
-//            }
-//            for (Long blogId:
-//                    blogIds) {
-//                Blog blog = instance.getInstance(Blog.class,"SELECT * FROM blogs WHERE blogId = ?",blogId);
-//                BlogController.showBlog(blog);
-//            }
-//        }catch (SQLException ex){
-//            ex.printStackTrace();
-//        }catch (Exception e){
-//
-//        }
-//    }
-    /*private void fillMapResult(Map<String,String> result, Blog blog){
-        result.put("blogId",String.valueOf(blog.getBlogId()));
-        result.put("title", blog.getContent());
-        result.put("time", String.valueOf(blog.getTime()));
-        result.put("content",blog.getContent());
-    }*/
 }

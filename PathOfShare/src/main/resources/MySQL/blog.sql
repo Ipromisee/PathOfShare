@@ -11,7 +11,7 @@
  Target Server Version : 80033
  File Encoding         : 65001
 
- Date: 15/11/2023 19:48:11
+ Date: 01/12/2023 15:47:13
 */
 
 SET NAMES utf8mb4;
@@ -33,7 +33,7 @@ CREATE TABLE `blogs`  (
   UNIQUE INDEX `blogId_UNIQUE`(`blogId` ASC) USING BTREE,
   INDEX `userId`(`userId` ASC) USING BTREE,
   CONSTRAINT `userId` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of blogs
@@ -41,6 +41,11 @@ CREATE TABLE `blogs`  (
 INSERT INTO `blogs` VALUES (13, 1, '\nthis is a blog\nfrom a common user\nthe class is commonBlog\n', 'user', '2023-11-15 19:41:32', 0, 0);
 INSERT INTO `blogs` VALUES (14, 2, '\nthis is a blog\nfrom a manager\nthe class is managerBlog\n', 'manager', '2023-11-15 19:42:26', 0, 0);
 INSERT INTO `blogs` VALUES (15, 3, '\nthis is a blog\nfrom a visitor\nthe class is visitorBlog\n', 'visitor', '2023-11-15 19:43:38', 0, 0);
+INSERT INTO `blogs` VALUES (16, 1, '\n111\n1111\n11111\n', 'user', '2023-11-16 14:12:48', 0, 0);
+INSERT INTO `blogs` VALUES (17, 2, '\n123\n', 'manager', '2023-11-16 15:24:32', 0, 0);
+INSERT INTO `blogs` VALUES (18, 2, '\n12\n', 'manager', '2023-11-16 15:31:31', 0, 0);
+INSERT INTO `blogs` VALUES (19, 1, '\n123\n', 'user', '2023-11-16 15:31:49', 0, 0);
+INSERT INTO `blogs` VALUES (20, 2, '\nPosting a managerBlog\n', 'manager', '2023-11-20 10:58:09', 0, 0);
 
 -- ----------------------------
 -- Table structure for comments
@@ -75,8 +80,8 @@ CREATE TABLE `follows`  (
   `followTime` datetime NOT NULL,
   `followId` int NOT NULL,
   PRIMARY KEY (`userId`, `followId`) USING BTREE,
-  CONSTRAINT `follows_userId` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `follows_followId` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `follows_followId` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `follows_userId` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -122,7 +127,7 @@ CREATE TABLE `users`  (
   `birthDay` date NULL DEFAULT NULL,
   PRIMARY KEY (`userId`) USING BTREE,
   UNIQUE INDEX `userId_UNIQUE`(`userId` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 62 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 63 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of users
