@@ -10,45 +10,45 @@ import java.util.Date;
 @TableName(value = "comments")
 public abstract class Comment {
     @TableId(type = IdType.AUTO)
-    private long commentId;
-    private long blogId;
+    private Integer commentId;
+    private Integer blogId;
     private String content;
     private int likes;
 
-    private long posterId;
+    private Integer posterId;
     private String fromWho = null;
     private Date time;
 
     public Comment() {
     }
 
-    public Comment(long posterId, long blogId, String content) {
+    public Comment(Integer posterId, Integer blogId, String content) {
         this.posterId = posterId;
         this.blogId = blogId;
         this.content = content;
         this.likes = 0;
         this.time = new Date();
     }
-    public Comment(long commentId, long blogId, String content, int likes) {
+    public Comment(Integer commentId, Integer blogId, String content, int likes) {
         this.commentId = commentId;
         this.blogId = blogId;
         this.content = content;
         this.likes = likes;
     }
 
-    public long getCommentId() {
+    public Integer getCommentId() {
         return commentId;
     }
 
-    public void setCommentId(long commentId) {
+    public void setCommentId(Integer commentId) {
         this.commentId = commentId;
     }
 
-    public long getBlogId() {
+    public Integer getBlogId() {
         return blogId;
     }
 
-    public void setBlogId(long blogId) {
+    public void setBlogId(Integer blogId) {
         this.blogId = blogId;
     }
 

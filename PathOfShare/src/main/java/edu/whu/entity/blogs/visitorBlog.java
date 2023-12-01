@@ -3,8 +3,8 @@ package edu.whu.entity.blogs;
 import edu.whu.entity.Blog;
 
 public class visitorBlog extends Blog {
-    public visitorBlog(long userId, String content){
-        super(userId,content);
+    public visitorBlog(Integer userId, String content,String title){
+        super(userId,content,title);
         setFromWho("visitor");
     }
     public visitorBlog(){

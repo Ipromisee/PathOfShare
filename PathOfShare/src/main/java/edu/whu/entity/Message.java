@@ -6,9 +6,9 @@ import java.util.Date;
 
 @TableName(value = "messages")
 public abstract class Message {
-    private long messageId;
-    private long senderId;
-    private long receiverId;
+    private Integer messageId;
+    private Integer senderId;
+    private Integer receiverId;
     private String content;
     private String fromWho = null;
     private Date time;
@@ -16,32 +16,32 @@ public abstract class Message {
     public Message() {
     }
 
-    public Message(long senderId, long receiverId, String content) {
+    public Message(Integer senderId, Integer receiverId, String content) {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.content = content;
         this.time = new Date();
     }
-    public Message(long senderId, long receiverId, String content, Date time) {
+    public Message(Integer senderId, Integer receiverId, String content, Date time) {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.content = content;
         this.time = time;
     }
 
-    public long getSenderId() {
+    public Integer getSenderId() {
         return senderId;
     }
 
-    public void setSenderId(long senderId) {
+    public void setSenderId(Integer senderId) {
         this.senderId = senderId;
     }
 
-    public long getReceiverId() {
+    public Integer getReceiverId() {
         return receiverId;
     }
 
-    public void setReceiverId(long receiverId) {
+    public void setReceiverId(Integer receiverId) {
         this.receiverId = receiverId;
     }
 
@@ -61,9 +61,9 @@ public abstract class Message {
         this.time = time;
     }
 
-    public long getMessageId(){ return messageId; }
+    public Integer getMessageId(){ return messageId; }
 
-    public void setMessageId(long messageId) { this.messageId = messageId; }
+    public void setMessageId(Integer messageId) { this.messageId = messageId; }
 
     public String getFromWho() {
         return fromWho;

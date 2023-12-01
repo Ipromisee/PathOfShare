@@ -9,8 +9,8 @@ import java.util.Date;
 @TableName(value = "blog")
 public abstract class Blog {
     @TableId(type = IdType.AUTO)
-    private long blogId;
-    private long userId;
+    private Integer blogId;
+    private Integer userId;
     private String content;
     private int visit;
     private int like;
@@ -18,17 +18,20 @@ public abstract class Blog {
     private String fromWho = null;
     private Date time;
 
+    private String title;
+
     public Blog() {
     }
 
-    public Blog(long userId, String content) {
+    public Blog(Integer userId, String content ,String title) {
         this.userId = userId;
         this.content = content;
         this.visit = 0;
         this.like = 0;
         this.time = new Date();
+        this.title = title;
     }
-    public Blog(long blogId, long userId, String content, int visit, int like) {
+    public Blog(Integer blogId, Integer userId, String content, int visit, int like) {
         this.blogId = blogId;
         this.userId = userId;
         this.content = content;
@@ -36,19 +39,19 @@ public abstract class Blog {
         this.like = like;
     }
 
-    public long getBlogId() {
+    public Integer getBlogId() {
         return blogId;
     }
 
-    public void setBlogId(long blogId) {
+    public void setBlogId(Integer blogId) {
         this.blogId = blogId;
     }
 
-    public long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -87,6 +90,10 @@ public abstract class Blog {
     public void setFromWho(String fromWho) {
         this.fromWho = fromWho;
     }
+
+    public void setTitle(String title) { this.title = title; }
+
+    public String getTitle() { return title; }
 
     //抽象方法
     /**

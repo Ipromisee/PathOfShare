@@ -3,7 +3,7 @@ package edu.whu.entity.messages;
 import edu.whu.entity.Message;
 
 public class visitorMessage extends Message {
-    public visitorMessage(long senderId, long receiverId, String content){
+    public visitorMessage(Integer senderId, Integer receiverId, String content){
         super(senderId, receiverId, content);
         setFromWho("visitor");
     }

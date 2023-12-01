@@ -3,7 +3,7 @@ package edu.whu.entity.comments;
 import edu.whu.entity.Comment;
 
 public class userComment extends Comment {
-    public userComment(long posterId, long blogId, String content){
+    public userComment(Integer posterId, Integer blogId, String content){
         super(posterId, blogId, content);
         setFromWho("user");
     }

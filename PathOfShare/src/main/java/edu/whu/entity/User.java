@@ -1,11 +1,11 @@
 package edu.whu.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import edu.whu.service.MySQL.MySqlHelper;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
@@ -14,7 +14,7 @@ import java.util.Date;
 public abstract class User {
     //private static User instance = new User();
     @TableId(type = IdType.AUTO)
-    private long userId;
+    private Integer userId;
     private String userName;
     private  String passWord;
     private Date birthDay;
@@ -32,11 +32,11 @@ public abstract class User {
         return instance;
     }*/
 
-    public long getId() {
+    public Integer getId() {
         return userId;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.userId = id;
     }
 
@@ -116,7 +116,7 @@ public abstract class User {
      * 关注行为
      * @param followId 被关注者ID
      */
-    public void follow(long followId){
+    public void follow(Integer followId) throws SQLException {
         MySqlHelper sql = MySqlHelper.getInstance();
         Date date = new Date();
         SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -126,7 +126,7 @@ public abstract class User {
      * 发布博客,同时设置博客id
      * @param blog 博客对象
      */
-    public void postBlog(Blog blog){
+    public void postBlog(Blog blog) throws SQLException {
         MySqlHelper sql = MySqlHelper.getInstance();
         int blogId = sql.insertAndId("INSERT INTO blogs(userId,content,time,fromWho) VALUES(?,?,?,?)",userId,blog.getContent(),new Date(),blog.getFromWho());
         blog.setBlogId(blogId);
@@ -135,7 +135,7 @@ public abstract class User {
      * 删除博客
      * @param blog 要删除的博客，需要先确定blog具有id
      */
-    public void deleteBlog(Blog blog){
+    public void deleteBlog(Blog blog) throws SQLException {
         if(blog.getBlogId()==0){
             System.out.println("该blog还没有ID");
         }
@@ -149,7 +149,7 @@ public abstract class User {
      * 修改博客
      * @param blog 需要先确定blog具有id
      */
-    public void updateBlog(Blog blog){
+    public void updateBlog(Blog blog) throws SQLException {
         if(blog.getBlogId()==0){
             System.out.println("该blog还没有ID");
         }
@@ -162,7 +162,7 @@ public abstract class User {
      * 点赞
      * @param blog 需要先确定blog具有id
      */
-    public void likeBlog(Blog blog){
+    public void likeBlog(Blog blog) throws SQLException {
         if(blog.getBlogId()==0){
             System.out.println("该blog还没有ID");
         }
@@ -177,7 +177,7 @@ public abstract class User {
      * 访问blog，visit+1同时改变readingBlog
      * @param blog 需要先确定blog具有id
      */
-    public void visitBlog(Blog blog){
+    public void visitBlog(Blog blog) throws SQLException {
         if(blog.getBlogId()==0){
             System.out.println("该blog还没有ID");
         }
@@ -203,7 +203,7 @@ public abstract class User {
      * 需要具有readingBlog，否则出错
      * @param comment 评论对象
      */
-    public void postComment(Comment comment){
+    public void postComment(Comment comment) throws SQLException {
         if(readingBlog == null){
             System.out.println("发布评论出错：当前没有查看博客！");
         }
@@ -217,7 +217,7 @@ public abstract class User {
      * 删除评论
      * @param comment 要删除的评论，需要先确定comment具有id
      */
-    public void deleteComment(Comment comment){
+    public void deleteComment(Comment comment) throws SQLException {
         if(comment.getCommentId()==0){
             System.out.println("该comment还没有ID");
         }
@@ -231,7 +231,7 @@ public abstract class User {
      * 修改评论
      * @param comment 需要先确定comment具有id
      */
-    public void updateComment(Comment comment){
+    public void updateComment(Comment comment) throws SQLException {
         if(comment.getCommentId()==0){
             System.out.println("该comment还没有ID");
         }
@@ -244,7 +244,7 @@ public abstract class User {
      * 点赞评论
      * @param comment 需要先确定comment具有id
      */
-    public void likecComment(Comment comment){
+    public void likecComment(Comment comment) throws SQLException {
         if(comment.getCommentId()==0){
             System.out.println("该comment还没有ID");
         }
@@ -259,7 +259,7 @@ public abstract class User {
      * 发送私信
      * @param message 私信对象
      */
-    public void sendMessage(Message message){
+    public void sendMessage(Message message) throws SQLException {
         MySqlHelper instance = MySqlHelper.getInstance();
         int messageId = instance.insertAndId("INSERT INTO messages(senderId,receiverId,time,content,fromWho) VALUES(?,?,?,?,?)",userId,message.getReceiverId(),message.getTime(),message.getContent(),message.getFromWho());
         message.setMessageId(messageId);
@@ -272,17 +272,17 @@ public abstract class User {
      * @param content 内容字符串
      * @return 设置好fromWho和id的blog
      */
-    public abstract Blog postAndGetBlog(String content);
+    public abstract Blog postAndGetBlog(String content,String title) throws SQLException;
     /**
      * 根据content发布comment，同时返回Comment
      * @param content 内容字符串
      * @return 设置好fromWho和id的comment
      */
-    public abstract Comment postAndGetComment(String content,long blogId);
+    public abstract Comment postAndGetComment(String content,Integer blogId) throws SQLException ;
     /**
      * 根据content发送message，同时返回Message
      * @param content 内容字符串
      * @return 设置好fromWho和id的Message
      */
-    public abstract Message sendAndGetMessage(String content,long receiverId);
+    public abstract Message sendAndGetMessage(String content,Integer receiverId) throws SQLException ;
 }
