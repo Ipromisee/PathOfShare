@@ -92,7 +92,7 @@ public class MySqlHelper {
      * @param cmd SQL命令，如DELETE、UPDATE；视情况决定是否使用占位符
      * @param args 占位符对象，数量要和问号”？“数量一致
      */
-    public void sqlCMD(String cmd , Object ... args) throws SQLException{
+    public int sqlCMD(String cmd , Object ... args) throws SQLException{
         // 建立数据库连接
         connection = DriverManager.getConnection(url, username, password);
         // 创建Statement对象
@@ -114,6 +114,7 @@ public class MySqlHelper {
         //statement.close();
         preparedStatement.close();
         connection.close();
+        return  rowsAffected;
     }
 
     /**
