@@ -17,3 +17,9 @@ export const setCurrentBlog = (id, title, content) => {
     currentBlog.value.title = title;
     currentBlog.value.content = content;
 }
+
+export const setCurrentUser = (id, userName, type) => {
+    currentUser.value.id = id;
+    currentUser.value.userName = userName;
+    currentUser.value.type = type;
+}

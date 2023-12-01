@@ -4,7 +4,7 @@
   import {loginAPI} from "@/api/userAPI"
   import {ref} from "vue";
   import {ElMessage} from "element-plus";
-  import {currentUser} from "@/global";
+  import {currentUser, setCurrentUser} from "@/global";
 
   const account = ref("");
   const password = ref("");
@@ -16,9 +16,7 @@
     }
     await loginAPI(data)
         .then((response) => {
-          currentUser.value.id = response.id;
-          currentUser.value.userName = response.userName;
-          currentUser.value.type = response.type;
+          setCurrentUser(response["userId"], response["userName"], response["type"]);
           router.push("/main");
         })
         .catch(() => {

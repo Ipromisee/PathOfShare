@@ -2,6 +2,8 @@
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
 
 import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue'
+import {currentUser} from "@/global";
+import { addBlogAPI } from "@/api/blogAPI";
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 
 // 编辑器实例，必须用 shallowRef
@@ -28,7 +30,12 @@ const handleCreated = (editor) => {
 const handleChange = (editor) =>{
 }
 
-const postBlog = () => {
+const postBlog = async () => {
+  const data = {
+    "content": valueHtml.value,
+    "title": titleInput.value
+  }
+  await addBlogAPI(data);
 }
 
 </script>

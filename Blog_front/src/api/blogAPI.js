@@ -9,5 +9,9 @@ export const getAllBlogAPI = () => {
 }
 
 export const addBlogAPI = (data) => {
-    return request.post("/blog/add", data);
+    const params = new URLSearchParams();
+    for (var key in data) {
+        params.append(key, data[key]);
+    }
+    return request.post("/blog/postBlog", params);
 }
