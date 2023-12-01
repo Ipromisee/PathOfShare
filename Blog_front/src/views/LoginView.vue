@@ -1,9 +1,29 @@
 <script setup>
   import roadSignBoth from "@icon-park/vue-next/lib/icons/RoadSignBoth";
   import router from "@/router";
+  import {loginAPI} from "@/api/userAPI"
+  import {ref} from "vue";
+  import {ElMessage} from "element-plus";
+  import {currentUser} from "@/global";
 
-  const toMainPage = () => {
-    router.push("/main")
+  const account = ref("");
+  const password = ref("");
+
+  const login = async () => {
+    const data = {
+      "userid": account.value,
+      "passWord": password.value
+    }
+    await loginAPI(data)
+        .then((response) => {
+          currentUser.value.id = response.id;
+          currentUser.value.userName = response.userName;
+          currentUser.value.type = response.type;
+          router.push("/main");
+        })
+        .catch(() => {
+          ElMessage.error("登录失败");
+        })
   }
 </script>
 
@@ -20,14 +40,14 @@
       </div>
       <el-row class="login-row">
         <el-col :span="6" class="login-column"><div>账号:</div></el-col>
-        <el-col :span="12"><el-input class="login-input"/></el-col>
+        <el-col :span="12"><el-input v-model="account" class="login-input"/></el-col>
       </el-row>
       <el-row class="login-row">
         <el-col :span="6" class="login-column"><div>密码:</div></el-col>
-        <el-col :span="12"><el-input class="login-input"/></el-col>
+        <el-col :span="12"><el-input v-model="password" class="login-input"/></el-col>
       </el-row>
       <el-row style="display: flex; justify-content: center">
-        <el-button type="primary" @click="toMainPage">登录</el-button>
+        <el-button type="primary" @click="login">登录</el-button>
       </el-row>
     </div>
   </div>

@@ -1,6 +1,6 @@
 import {ref} from "vue";
 
-const currentUser = ref({
+export const currentUser = ref({
     id: -1,
     userName: "",
     type: ""
