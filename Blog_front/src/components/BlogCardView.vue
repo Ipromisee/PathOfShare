@@ -9,7 +9,7 @@
 <template>
   <div id="card-body">
     <div class="title-font">{{props.title}}</div>
-    <div class="date-font">{{props.date.toLocaleString()}}</div>
+    <div class="date-font">{{props.date}}</div>
   </div>
 </template>
 

@@ -9,6 +9,7 @@ const editorRef = shallowRef()
 
 // 内容 HTML
 const valueHtml = ref('Hello, World!')
+const titleInput = ref("")
 
 const toolbarConfig = {}
 const editorConfig = { placeholder: '请输入内容...' }
@@ -51,6 +52,8 @@ const postBlog = () => {
   </div>
 
   <div id="footer">
+    <div style="width: 10%; text-align: end">标题：</div>
+    <el-input v-model="titleInput" style="width: 30%; margin-right: 10px"/>
     <el-button type="primary" size="large" @click="postBlog">发布</el-button>
   </div>
 </template>
@@ -60,5 +63,6 @@ const postBlog = () => {
     display: flex;
     justify-content: end;
     margin-top: 1%;
+    align-items: center;
   }
 </style>

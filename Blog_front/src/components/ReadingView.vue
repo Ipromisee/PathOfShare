@@ -4,6 +4,7 @@
   import returnIcon from "@icon-park/vue-next/lib/icons/Return"
   import {ref, onMounted} from "vue";
   import {getBlogAPI, getAllBlogAPI} from "@/api/blogAPI";
+  import {setCurrentBlog} from "@/global";
 
   const blogs = ref([]);
 
@@ -20,7 +21,11 @@
 </script>
 
 <template>
-  <blog-card-view v-if="currentMode==='brief'" v-for="blog in blogs" :title="blog.title" :date="blog.date" @click="changeMode('detail')"/>
+  <blog-card-view v-if="currentMode==='brief'"
+                  v-for="blog in blogs"
+                  :title="blog.title"
+                  :date="blog.time"
+                  @click="setCurrentBlog(blog.blogId, blog.title, blog.content);changeMode('detail')"/>
   <div class="blog-display" v-else>
     <div id="back-btn" @click="changeMode('brief')">
       <return-icon class="icon" theme="outline" size="24" fill="#ffffff"/>

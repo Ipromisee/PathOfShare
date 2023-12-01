@@ -1,6 +1,7 @@
 <script setup>
 import {ref, shallowRef, onBeforeUnmount} from "vue";
 import {Editor, Toolbar} from "@wangeditor/editor-for-vue";
+import {currentBlog} from "@/global";
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
 
 // 编辑器实例，必须用 shallowRef
@@ -32,7 +33,7 @@ const handleCreated = (editor) => {
   <div style="border: 1px solid #ccc">
     <Editor
         style="height: 500px; overflow-y: hidden;"
-        v-model="valueHtml"
+        v-model="currentBlog.content"
         :defaultConfig="editorConfig"
         :mode="mode"
         @onCreated="handleCreated"
