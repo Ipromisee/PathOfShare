@@ -16,6 +16,7 @@ import java.util.*;
 @RequestMapping("/comment")
 public class CommentController {
 
+    //获取某个博客的所有评论
     @GetMapping("/showComments")
     public ResponseEntity<List<Comment>> showComments(Integer blogId) {
         // MessageController.message("用户 ".concat(user.getUserName()).concat(" 你好！以下是你所有发布的博客："));
@@ -44,14 +45,14 @@ public class CommentController {
 
     }
 
+    //发布评论
     @PostMapping("/postComment")
-    public ResponseEntity<Map<String , String>> postComment(int userId, String userType, String content , int blogId) {
+    public ResponseEntity<Map<String , String>> postComment( String content) {
         Map<String , String> result = new HashMap<>();
         try {
-            MySqlHelper instance = MySqlHelper.getInstance();
-            int commentId = instance.insertAndId("INSERT INTO comments (posterId, content, fromWho, time,blogId) VALUES (?, ?, ?, ?, ?)", userId, content, userType, LocalDateTime.now(),blogId);
+            Comment comment = UserController.getLogInUser().postAndGetComment(content,UserController.getLogInUser().getReadingBlog().getBlogId());
             result.put("success","发布成功");
-            result.put("commentId",String.valueOf(commentId));
+            result.put("commentId",String.valueOf(comment.getCommentId()));
             return ResponseEntity.ok(result);
         }catch (SQLException e){
             result.put("error","数据库出现错误");
@@ -62,6 +63,8 @@ public class CommentController {
         }
         return ResponseEntity.badRequest().build();
     }
+
+    //删除评论
     @DeleteMapping("/deleteComment")
     public ResponseEntity<Map<String , String>> deleteComment(int commentId) {
         Map<String , String> result = new HashMap<>();

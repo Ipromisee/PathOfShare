@@ -209,7 +209,7 @@ public abstract class User {
         }
         else{
             MySqlHelper sql = MySqlHelper.getInstance();
-            int commentId = sql.insertAndId("INSERT INTO comments(blogId,posterId,content,fromWho) VALUES(?,?,?,?)",readingBlog.getBlogId(),userId,comment.getContent(),comment.getFromWho());
+            int commentId = sql.insertAndId("INSERT INTO comments(blogId,posterId,content,fromWho,time) VALUES(?,?,?,?,?)",readingBlog.getBlogId(),userId,comment.getContent(),comment.getFromWho(),new Date());
             comment.setCommentId(commentId);
         }
     }

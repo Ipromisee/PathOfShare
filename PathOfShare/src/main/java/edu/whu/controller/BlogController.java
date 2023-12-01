@@ -15,6 +15,7 @@ import java.util.*;
 @RequestMapping("/blog")
 public class BlogController {
 
+    //正在登录的用户show and visit博客
     @GetMapping("/showBlog")
     public ResponseEntity<Map<String , String>> showBlog(Integer blogId) {
         Map<String , String> result = new HashMap<>();
@@ -22,6 +23,7 @@ public class BlogController {
         try {
             MySqlHelper instance = MySqlHelper.getInstance();
             Blog newBlog = instance.getInstance(Blog.class, "SELECT * FROM blogs WHERE blogId = ?", blogId);
+            UserController.getLogInUser().visitBlog(newBlog);
             if (newBlog != null) {//存在该博客
                 result.put("content",newBlog.getContent());
                 return ResponseEntity.ok(result);
@@ -36,16 +38,13 @@ public class BlogController {
         }
     }
 
-    /**
-     * 展示该用户所有博客
-     * @param userid
-     */
-    @GetMapping("/getByUser/{userid}")
-    public ResponseEntity<List<Blog>> showBlogs(@PathVariable int userid){
+    //获取正在登录的用户的所有博客
+    @GetMapping("/getByUser")
+    public ResponseEntity<List<Blog>> showBlogs(){
         // MessageController.message("用户 ".concat(user.getUserName()).concat(" 你好！以下是你所有发布的博客："));
         try{
             MySqlHelper instance = MySqlHelper.getInstance();
-            ResultSet rs = instance.getResultSet("SELECT blogId FROM blogs WHERE userId = ?",userid);
+            ResultSet rs = instance.getResultSet("SELECT blogId FROM blogs WHERE userId = ?",UserController.getLogInUser().getId());
             Vector<Integer> blogIds = new Vector<Integer>();
             while (rs.next()){
                 Integer id = rs.getInt("blogId");
@@ -67,6 +66,8 @@ public class BlogController {
         }
         return ResponseEntity.badRequest().build();
     }
+
+    //获取所有博客
     @GetMapping("/getAll")
     public ResponseEntity<List<Blog>> showAllBlogs(){
         // MessageController.message("用户 ".concat(user.getUserName()).concat(" 你好！以下是你所有发布的博客："));
@@ -95,14 +96,14 @@ public class BlogController {
         return ResponseEntity.badRequest().build();
     }
 
+    //发布博客
     @PostMapping("/postBlog")
-    public ResponseEntity<Map<String , String>> postBlog(int userId, String userType, String content , String title) {
+    public ResponseEntity<Map<String , String>> postBlog(String content , String title) {//int userId, String userType,
         Map<String , String> result = new HashMap<>();
         try {
-            MySqlHelper instance = MySqlHelper.getInstance();
-            int blogId = instance.insertAndId("INSERT INTO blogs (userId, content, fromWho, time,title) VALUES (?, ?, ?, ?,?)", userId, content, userType, LocalDateTime.now(),title);
+            Blog blog = UserController.getLogInUser().postAndGetBlog(content,title);
             result.put("success","发布成功");
-            result.put("blogId",String.valueOf(blogId));
+            result.put("blogId",String.valueOf(blog.getBlogId()));
             return ResponseEntity.ok(result);
         }catch (SQLException e){
             result.put("error","数据库出现错误");
@@ -113,6 +114,8 @@ public class BlogController {
         }
         return ResponseEntity.badRequest().build();
     }
+
+    //删除博客
     @DeleteMapping("/deleteBlog")
     public ResponseEntity<Map<String , String>> deleteBlog(int blogId) {
         Map<String , String> result = new HashMap<>();
