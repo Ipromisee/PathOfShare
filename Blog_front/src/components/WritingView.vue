@@ -5,6 +5,7 @@ import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue'
 import {currentUser} from "@/global";
 import { addBlogAPI } from "@/api/blogAPI";
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import {ElMessage} from "element-plus";
 
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef()
@@ -35,7 +36,10 @@ const postBlog = async () => {
     "content": valueHtml.value,
     "title": titleInput.value
   }
-  await addBlogAPI(data);
+  await addBlogAPI(data)
+      .then(() => {
+        ElMessage.success("发布成功")
+      })
 }
 
 </script>
