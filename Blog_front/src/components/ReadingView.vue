@@ -25,7 +25,7 @@
     await getUserInfoAPI(userId)
         .then((response) => {
           currentBlog.value.username = response.userName;
-          currentBlog.value.userType = response.userType;
+          currentBlog.value.userType = response.type;
         });
     changeMode('detail');
   }
@@ -38,12 +38,12 @@
                   :date="blog.time"
                   @click="jumpToRead(blog.blogId, blog.title, blog.content, blog.userId);"/>
   <div class="blog-display" v-else>
-    <div style="display: flex">
+    <div style="display: flex; align-items: center">
       <div id="back-btn" @click="changeMode('brief')">
         <return-icon class="icon" theme="outline" size="24" fill="#ffffff"/>
       </div>
-      <div>发布者：{{currentBlog.username}}</div>
-      <div>发布者类型：{{currentBlog.userType}}</div>
+      <div style="margin-left: 50px">发布者：{{currentBlog.username}}</div>
+      <div style="margin-left: 50px">发布者类型：{{currentBlog.userType}}</div>
     </div>
 
     <blog-display-view/>
