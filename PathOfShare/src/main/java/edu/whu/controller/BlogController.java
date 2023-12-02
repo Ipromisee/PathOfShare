@@ -25,7 +25,7 @@ public class BlogController {
             Blog newBlog = instance.getInstance(Blog.class, "SELECT * FROM blogs WHERE blogId = ?", blogId);
             UserController.getLogInUser().visitBlog(newBlog);
             if (newBlog != null) {//存在该博客
-                result.put("content",newBlog.getContent());
+                result.put("content",newBlog.displayContent());
                 return ResponseEntity.ok(result);
             }
             else{
@@ -83,6 +83,7 @@ public class BlogController {
             for (Integer blogId:
                     blogIds) {
                 Blog blog = instance.getInstance(Blog.class,"SELECT * FROM blogs WHERE blogId = ?",blogId);
+                blog.setContent(blog.displayContent());
                 result.add(blog);
                 //BlogController.showBlog(blog);
             }
