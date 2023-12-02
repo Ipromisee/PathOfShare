@@ -114,16 +114,19 @@ public class UserController {
             return ResponseEntity.badRequest().body(result);
         }
     }
-//    @PutMapping("/likeBlog")
-//    public ResponseEntity<Map<String , String>> likeBlog(int blogId){
-//        Map<String , String> result = new HashMap<>();
-//        try{
-//            MySqlHelper instance = MySqlHelper.getInstance();
-//            Blog blog = instance.getInstance(Blog.class,"SELECT * FROM blogs WHERE blogId= ?",blogId);
-//            UserController.getLogInUser().likeBlog(blog);
-//        }catch (Exception e){
-//            result.put("error","数据库错误");
-//            return ResponseEntity.badRequest().body(result);
-//        }
-//    }
+    @PutMapping("/likeBlog")
+    public ResponseEntity<Map<String , String>> likeBlog(int blogId){
+        Map<String , String> result = new HashMap<>();
+        try{
+            MySqlHelper instance = MySqlHelper.getInstance();
+            Blog blog = instance.getInstance(Blog.class,"SELECT * FROM blogs WHERE blogId = ?",blogId);
+            UserController.getLogInUser().likeBlog(blog);
+            result.put("success","点赞成功");
+            result.put("likes",String.valueOf(blog.getLike()));
+            return ResponseEntity.ok(result);
+        }catch (Exception e){
+            result.put("error","数据库错误");
+            return ResponseEntity.badRequest().body(result);
+        }
+    }
 }
