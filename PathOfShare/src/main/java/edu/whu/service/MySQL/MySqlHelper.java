@@ -26,7 +26,7 @@ public class MySqlHelper {
     static final String url = "jdbc:mysql://localhost:3306/blog";
     static final String username = "root";
     //自己修改密码
-    static final String password = "23364464178";
+    static final String password = "159463728";
 
     Connection connection = null;
     Statement statement = null;

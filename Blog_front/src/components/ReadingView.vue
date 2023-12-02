@@ -4,7 +4,8 @@
   import returnIcon from "@icon-park/vue-next/lib/icons/Return"
   import {ref, onMounted} from "vue";
   import {getBlogAPI, getAllBlogAPI} from "@/api/blogAPI";
-  import {setCurrentBlog} from "@/global";
+  import {getUserInfoAPI} from "@/api/userAPI";
+  import {currentBlog, setCurrentBlog} from "@/global";
 
   const blogs = ref([]);
 
@@ -18,6 +19,16 @@
   const changeMode = (mode) => {
     currentMode.value = mode;
   }
+
+  const jumpToRead = async (blogId, title, content, userId) => {
+    setCurrentBlog(blogId, title, content);
+    await getUserInfoAPI(userId)
+        .then((response) => {
+          currentBlog.value.username = response.userName;
+          currentBlog.value.userType = response.type;
+        });
+    changeMode('detail');
+  }
 </script>
 
 <template>
@@ -25,11 +36,16 @@
                   v-for="blog in blogs"
                   :title="blog.title"
                   :date="blog.time"
-                  @click="setCurrentBlog(blog.blogId, blog.title, blog.content);changeMode('detail')"/>
+                  @click="jumpToRead(blog.blogId, blog.title, blog.content, blog.userId);"/>
   <div class="blog-display" v-else>
-    <div id="back-btn" @click="changeMode('brief')">
-      <return-icon class="icon" theme="outline" size="24" fill="#ffffff"/>
+    <div style="display: flex; align-items: center">
+      <div id="back-btn" @click="changeMode('brief')">
+        <return-icon class="icon" theme="outline" size="24" fill="#ffffff"/>
+      </div>
+      <div style="margin-left: 50px">发布者：{{currentBlog.username}}</div>
+      <div style="margin-left: 50px">发布者类型：{{currentBlog.userType}}</div>
     </div>
+
     <blog-display-view/>
   </div>
 </template>

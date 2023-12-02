@@ -7,3 +7,7 @@ export const loginAPI = (data) => {
     }
     return request.get("/user/login", {params: params})
 }
+
+export const getUserInfoAPI = (userid) => {
+    return request.get("/user/getUserInfo?userId=" + userid);
+}
