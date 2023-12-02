@@ -1,5 +1,6 @@
 package edu.whu.controller;
 
+import edu.whu.entity.Blog;
 import edu.whu.entity.User;
 import edu.whu.service.MySQL.MySqlHelper;
 import org.springframework.http.RequestEntity;
@@ -92,4 +93,37 @@ public class UserController {
         result.put("userName", user.getUserName());
         result.put("type", user.getType());
     }
+
+    @GetMapping("/getUserInfo")
+    public ResponseEntity<Map<String , String>> getUserInfo(int userId){
+        Map<String , String> result = new HashMap<>();
+        try{
+            MySqlHelper instance = MySqlHelper.getInstance();
+            User newUser = instance.getInstance(User.class,"SELECT * FROM users WHERE userId = ?",userId);
+            if(newUser!=null){//存在该用户
+                fillMapResult(result,newUser);
+                return ResponseEntity.ok(result);
+            }//找不到用户
+            else {
+                result.put("error","找不到用户");
+                MessageController.errorMessage("登录","找不到该用户","请检查用户名，确认用户是否存在。如果没有账号，请先注册！");
+                return ResponseEntity.badRequest().body(result);
+            }
+        }catch (Exception e){
+            result.put("error","数据库错误");
+            return ResponseEntity.badRequest().body(result);
+        }
+    }
+//    @PutMapping("/likeBlog")
+//    public ResponseEntity<Map<String , String>> likeBlog(int blogId){
+//        Map<String , String> result = new HashMap<>();
+//        try{
+//            MySqlHelper instance = MySqlHelper.getInstance();
+//            Blog blog = instance.getInstance(Blog.class,"SELECT * FROM blogs WHERE blogId= ?",blogId);
+//            UserController.getLogInUser().likeBlog(blog);
+//        }catch (Exception e){
+//            result.put("error","数据库错误");
+//            return ResponseEntity.badRequest().body(result);
+//        }
+//    }
 }
