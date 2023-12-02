@@ -18,7 +18,7 @@ public class VisitorUser extends User {
     }
     @Override
     public Blog postAndGetBlog(String content ,String title) throws SQLException {
-        Blog blog = new userBlog(getId(),content,title);
+        Blog blog = new visitorBlog(getId(),content,title);
         postBlog(blog);
         return blog;
     }
