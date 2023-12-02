@@ -169,7 +169,7 @@ public abstract class User {
         else{
             blog.setLike(blog.getLike()+1);
             MySqlHelper sqlHelper = MySqlHelper.getInstance();
-            sqlHelper.sqlCMD("UPDATE blogs SET like = ? WHERE blogId = ?",blog.getLike(),blog.getBlogId());
+            sqlHelper.sqlCMD("UPDATE blogs SET likes = ? WHERE blogId = ?",blog.getLike(),blog.getBlogId());
         }
     }
 

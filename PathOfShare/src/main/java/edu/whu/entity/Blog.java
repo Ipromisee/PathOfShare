@@ -13,7 +13,7 @@ public abstract class Blog {
     private Integer userId;
     private String content;
     private int visit;
-    private int like;
+    private int likes;
 
     private String fromWho = null;
     private String time;
@@ -27,16 +27,16 @@ public abstract class Blog {
         this.userId = userId;
         this.content = content;
         this.visit = 0;
-        this.like = 0;
+        this.likes = 0;
         this.time = String.valueOf(new Date());
         this.title = title;
     }
-    public Blog(Integer blogId, Integer userId, String content, int visit, int like) {
+    public Blog(Integer blogId, Integer userId, String content, int visit, int likes) {
         this.blogId = blogId;
         this.userId = userId;
         this.content = content;
         this.visit = visit;
-        this.like = like;
+        this.likes = likes;
     }
 
     public Integer getBlogId() {
@@ -72,11 +72,11 @@ public abstract class Blog {
     }
 
     public int getLike() {
-        return like;
+        return likes;
     }
 
-    public void setLike(int like) {
-        this.like = like;
+    public void setLike(int likes) {
+        this.likes = likes;
     }
 
     public String getTime() {
