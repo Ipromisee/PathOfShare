@@ -11,6 +11,7 @@
 
   onMounted(async () => {
     const response = await getAllBlogAPI();
+    blogs.value.splice(0, blogs.value.length);
     blogs.value.push.apply(blogs.value, response);
   })
 

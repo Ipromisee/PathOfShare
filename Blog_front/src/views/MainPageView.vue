@@ -5,6 +5,7 @@
   import {ref} from "vue";
   import writingView from "@/components/WritingView.vue"
   import readingView from "@/components/ReadingView.vue"
+  import {currentUser} from "../global";
 
   const currentTab = ref("writing");
 
@@ -16,9 +17,12 @@
 <template>
   <el-container>
     <el-header style="background-color: var(--el-color-primary); display: flex; align-items: center">
-      <div style="display: flex; margin-left: 2%">
-        <road-sign-both theme="filled" size="30" fill="#ffffff"/>
-        <div style="font-size: 24px; color: white; font-weight: bolder">分享之径</div>
+      <div style="display: flex; margin-left: 2%; justify-content: space-between; width: 100%">
+        <div style="display: flex">
+          <road-sign-both theme="filled" size="30" fill="#ffffff"/>
+          <div style="font-size: 24px; color: white; font-weight: bolder">分享之径</div>
+        </div>
+        <div style="align-self: center; color: white; font-size: 25px">用户:{{currentUser.userName}}</div>
       </div>
     </el-header>
 
