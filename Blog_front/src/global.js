@@ -9,7 +9,10 @@ export const currentUser = ref({
 export const currentBlog = ref({
     id: -1,
     title: "",
-    content: ""
+    content: "",
+    userid: "",
+    username: "",
+    userType: ""
 })
 
 export const setCurrentBlog = (id, title, content) => {
